@@ -4,7 +4,7 @@ import sqlglot
 def find_subquery_ranges(query: str, tokens: list) -> dict[tuple[int, int], str | None]:
     if not tokens:
         return {}
-    result: dict[tuple[int, int], str | None] = {}
+    subquery_ranges: dict[tuple[int, int], str | None] = {}
     stack = []
     T = sqlglot.tokens.TokenType
     for i, token in enumerate(tokens):
@@ -28,15 +28,15 @@ def find_subquery_ranges(query: str, tokens: list) -> dict[tuple[int, int], str 
                         alias = next_token.text
                     else:
                         alias = None
-                    result[(start, token.end + 1)] = alias
+                    subquery_ranges[(start, token.end + 1)] = alias
 
-    result[(tokens[0].start, tokens[-1].end + 1)] = None
-    return dict(sorted(result.items()))
+    subquery_ranges[(tokens[0].start, tokens[-1].end + 1)] = None
+    return dict(sorted(subquery_ranges.items()))
 
 
 def find_cte_ranges(tokens: list) -> dict[tuple[int, int], str]:
     T = sqlglot.tokens.TokenType
-    cte_map: dict[tuple[int, int], str] = {}
+    cte_ranges: dict[tuple[int, int], str] = {}
     for i, token in enumerate(tokens):
         if token.token_type != T.L_PAREN:
             continue
@@ -57,6 +57,6 @@ def find_cte_ranges(tokens: list) -> dict[tuple[int, int], str]:
             elif tokens[k].token_type == T.R_PAREN:
                 depth -= 1
                 if depth == 0:
-                    cte_map[(token.start, tokens[k].end + 1)] = cte_name
+                    cte_ranges[(token.start, tokens[k].end + 1)] = cte_name
                     break
-    return cte_map
+    return cte_ranges
