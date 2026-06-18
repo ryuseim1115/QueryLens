@@ -1,4 +1,4 @@
-import { findParentAliasEl } from '../utility.js';
+import { findParentAliasEl } from '../../../common/SubqueryDomFinder.js';
 
 export function displayLines(subqueries) {
   const tablesEl = document.querySelector('.tables-list');
