@@ -1,7 +1,7 @@
-import { displayTables } from '../display/DisplayTables.js';
-import { displayQuery } from '../display/DisplayQuery.js';
-import { displayLines } from '../display/DisplayLines.js';
-import { displayQueryResult } from '../display/DisplayQueryResult.js';
+import { displayTables } from './Display/DisplayTables.js';
+import { displayQuery } from './Display/DisplayQuery.js';
+import { displayLines } from './Display/DisplayLines.js';
+import { displayQueryResult } from './Display/DisplayQueryResult.js';
 
 const stored = sessionStorage.getItem('querySession');
 if (!stored) {
