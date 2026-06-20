@@ -1,5 +1,4 @@
 import pytest
-
 from api.db.run_subqueries import run_subqueries
 from api.schemas.run_query import SubqueryAnalyzeResult
 
@@ -26,7 +25,9 @@ def test_aggregate_returns_count():
 
 
 def test_filter_returns_subset():
-    result = run_subqueries([_make("SELECT COUNT(*) AS cnt FROM test3 WHERE category = '食品'")])
+    result = run_subqueries(
+        [_make("SELECT COUNT(*) AS cnt FROM test3 WHERE category = '食品'")]
+    )
     assert result[0].result[0]["cnt"] == 1
 
 

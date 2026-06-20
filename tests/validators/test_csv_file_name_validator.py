@@ -1,5 +1,4 @@
 import pytest
-
 from api.validators.csv_file_name_validator import CsvFileNameValidator
 
 

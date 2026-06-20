@@ -184,7 +184,7 @@ dialog ol {
   background: var(--surface-hover);
 }
 
-.csv-file-list input[type="checkbox"] {
+.csv-file-list input[type='checkbox'] {
   appearance: none;
   width: 1rem;
   height: 1rem;
@@ -193,16 +193,18 @@ dialog ol {
   background: var(--bg);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
   position: relative;
 }
 
-.csv-file-list input[type="checkbox"]:checked {
+.csv-file-list input[type='checkbox']:checked {
   background: var(--accent);
   border-color: var(--accent);
 }
 
-.csv-file-list input[type="checkbox"]:checked::after {
+.csv-file-list input[type='checkbox']:checked::after {
   content: '';
   position: absolute;
   left: 2px;

@@ -1,5 +1,6 @@
-from api.db.connection import get_connection
 from config import S3_BUCKET_NAME
+
+from api.db.connection import get_connection
 
 
 def create_table(file_name: str):

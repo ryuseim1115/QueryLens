@@ -41,7 +41,9 @@ def test_products_columns():
 def test_orders_columns():
     conn = get_connection()
     result = conn.sql("SELECT * FROM orders LIMIT 0")
-    assert set(result.columns) == {"id", "user_id", "product_id", "amount", "order_date"}
+    assert set(result.columns) == {
+        "id", "user_id", "product_id", "amount", "order_date"
+    }
 
 
 def test_users_first_row():
@@ -52,5 +54,7 @@ def test_users_first_row():
 
 def test_products_food_category_count():
     conn = get_connection()
-    count = conn.sql("SELECT COUNT(*) FROM products WHERE category = '食品'").fetchone()[0]
+    count = conn.sql(
+        "SELECT COUNT(*) FROM products WHERE category = '食品'"
+    ).fetchone()[0]
     assert count == 1

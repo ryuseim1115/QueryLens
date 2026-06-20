@@ -1,5 +1,10 @@
 import boto3
-from config import S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY_ID, REGION_NAME
+from config import (
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY_ID,
+    REGION_NAME,
+    S3_BUCKET_NAME,
+)
 
 
 def get_csv_paths() -> list[str]:
