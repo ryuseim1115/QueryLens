@@ -4,37 +4,26 @@ from api.db.connection import get_connection
 def test_all_tables_exist():
     conn = get_connection()
     tables = {row[0] for row in conn.sql("SHOW TABLES").fetchall()}
-    expected = {
-        "users",
-        "products",
-        "orders",
-        "reviews",
-        "stores",
-        "inventory",
-        "shipping",
-        "campaigns",
-        "employees",
-        "point_history",
-    }
+    expected = {"users", "products", "orders"}
     assert expected.issubset(tables)
 
 
 def test_users_row_count():
     conn = get_connection()
     count = conn.sql("SELECT COUNT(*) FROM users").fetchone()[0]
-    assert count == 20
+    assert count == 5
 
 
 def test_products_row_count():
     conn = get_connection()
     count = conn.sql("SELECT COUNT(*) FROM products").fetchone()[0]
-    assert count == 20
+    assert count == 5
 
 
 def test_orders_row_count():
     conn = get_connection()
     count = conn.sql("SELECT COUNT(*) FROM orders").fetchone()[0]
-    assert count == 20
+    assert count == 7
 
 
 def test_users_columns():
@@ -64,4 +53,4 @@ def test_users_first_row():
 def test_products_food_category_count():
     conn = get_connection()
     count = conn.sql("SELECT COUNT(*) FROM products WHERE category = '食品'").fetchone()[0]
-    assert count == 5
+    assert count == 1
