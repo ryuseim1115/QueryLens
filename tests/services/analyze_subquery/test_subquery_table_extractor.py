@@ -1,4 +1,6 @@
-from api.services.analyze_subquery.subquery_table_extractor import extract_tables_with_alias
+from api.services.analyze_subquery.subquery_table_extractor import (
+    extract_tables_with_alias,
+)
 
 
 def test_single_table_no_alias():
@@ -31,7 +33,8 @@ def test_join_extracts_both_tables():
 
 def test_left_join_with_aliases():
     result = extract_tables_with_alias(
-        "SELECT u.name, o.amount FROM users AS u LEFT JOIN orders AS o ON u.id = o.user_id"
+        "SELECT u.name, o.amount FROM users AS u "
+        "LEFT JOIN orders AS o ON u.id = o.user_id"
     )
     assert any(t == ("users", "u") for t in result)
     assert any(t == ("orders", "o") for t in result)

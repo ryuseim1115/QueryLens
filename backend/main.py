@@ -1,6 +1,14 @@
 import os
 
-from api.routers import create_table, drop_table, get_csv_files, input, result, run_query, upload_csv
+from api.routers import (
+    create_table,
+    drop_table,
+    get_csv_files,
+    input,
+    result,
+    run_query,
+    upload_csv,
+)
 from config import TEMPLATES_DIR
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles

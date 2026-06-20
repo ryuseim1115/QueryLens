@@ -1,5 +1,6 @@
 import duckdb
-from config import AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY_ID,REGION_NAME
+from config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY_ID, REGION_NAME
+
 
 def get_connection() -> duckdb.DuckDBPyconnection:
     connection = duckdb.connect()

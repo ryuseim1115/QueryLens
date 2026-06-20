@@ -3,9 +3,7 @@ import { runQuery } from '../../api/RunQuery.js';
 const errorMsg = document.querySelector('.query-error');
 
 function getQueryInfo() {
-  return Object.fromEntries(
-    new FormData(document.querySelector('form')).entries(),
-  );
+  return Object.fromEntries(new FormData(document.querySelector('form')).entries());
 }
 
 function showError(message) {

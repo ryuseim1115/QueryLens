@@ -1,4 +1,6 @@
-from api.services.analyze_subquery.query_structure_analyzer import QueryStructureAnalyzer
+from api.services.analyze_subquery.query_structure_analyzer import (
+    QueryStructureAnalyzer,
+)
 
 
 def test_simple_query_has_one_result():

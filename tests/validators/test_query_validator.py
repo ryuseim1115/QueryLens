@@ -1,5 +1,4 @@
 import pytest
-
 from api.validators.query_validator import QueryValidator
 
 
@@ -16,7 +15,9 @@ def test_select_with_where_passes():
 
 
 def test_join_query_passes():
-    query = "SELECT u.name, o.amount FROM users AS u JOIN orders AS o ON u.id = o.user_id"
+    query = (
+        "SELECT u.name, o.amount FROM users AS u JOIN orders AS o ON u.id = o.user_id"
+    )
     validator = QueryValidator("duckdb", query)
     expression = validator.validate()
     assert expression.key == "select"
