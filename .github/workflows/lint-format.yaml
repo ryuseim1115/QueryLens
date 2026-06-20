@@ -1,8 +1,6 @@
 name: Lint and Format Check
 
 on:
-  push:
-    branches-ignore: [production]
   pull_request:
     branches: [production, develop]
 
