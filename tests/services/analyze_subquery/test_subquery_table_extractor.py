@@ -41,9 +41,7 @@ def test_left_join_with_aliases():
 
 
 def test_subquery_in_from_has_none_name():
-    result = extract_tables_with_alias(
-        "SELECT * FROM (SELECT id FROM users) AS sub"
-    )
+    result = extract_tables_with_alias("SELECT * FROM (SELECT id FROM users) AS sub")
     assert any(t[1] == "sub" for t in result)
     subquery_entry = next(t for t in result if t[1] == "sub")
     assert subquery_entry[0] is None

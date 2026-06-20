@@ -25,8 +25,7 @@ def test_join_query_passes():
 
 def test_subquery_in_where_passes():
     query = (
-        "SELECT * FROM orders "
-        "WHERE user_id IN (SELECT id FROM users WHERE age > 30)"
+        "SELECT * FROM orders WHERE user_id IN (SELECT id FROM users WHERE age > 30)"
     )
     validator = QueryValidator("duckdb", query)
     expression = validator.validate()
