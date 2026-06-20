@@ -1,8 +1,6 @@
 name: Run Pytest
 
 on:
-  push:
-    branches-ignore: [production]
   pull_request:
     branches: [production, develop]
 
