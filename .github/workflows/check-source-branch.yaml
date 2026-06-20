@@ -1,0 +1,15 @@
+name: Check Source Branch
+
+on:
+  pull_request:
+    branches: [production]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require develop branch
+        if: github.head_ref != 'develop'
+        run: |
+          echo "productionへのPRはdevelopブランチからのみ許可されています"
+          exit 1
