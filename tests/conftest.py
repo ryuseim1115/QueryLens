@@ -1,6 +1,5 @@
-import duckdb
-
 import api.db.connection
+import duckdb
 
 _shared_connection = duckdb.connect()
 _shared_connection.sql("""
