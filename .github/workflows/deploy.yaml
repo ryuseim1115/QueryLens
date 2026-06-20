@@ -19,7 +19,4 @@ jobs:
             cd ~/QueryLens
             git pull origin production
             for i in 1 2 3; do poetry install && break || sleep 10; done
-            pkill -f uvicorn || true
-            setsid nohup poetry run uvicorn main:app --host 0.0.0.0 --port 8000 > ~/uvicorn.log 2>&1 &
-            sleep 3
-            cat ~/uvicorn.log
+            sudo systemctl restart querylens
