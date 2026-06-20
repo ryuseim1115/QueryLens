@@ -17,7 +17,7 @@ _shared_connection = duckdb.connect()
 for _file_name, _table_name in FILE_NAME_TABLE_MAP.items():
     _path = os.path.join(CSV_FILES_DIR, _file_name)
     _shared_connection.sql(
-        f'CREATE OR REPLACE TABLE "{_table_name}" AS SELECT * FROM \'{_path}\''
+        f"CREATE OR REPLACE TABLE \"{_table_name}\" AS SELECT * FROM '{_path}'"
     )
 
 # get_connection() を共有接続を返す関数で差し替える

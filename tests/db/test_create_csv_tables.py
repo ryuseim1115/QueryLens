@@ -42,7 +42,11 @@ def test_orders_columns():
     conn = get_connection()
     result = conn.sql("SELECT * FROM orders LIMIT 0")
     assert set(result.columns) == {
-        "id", "user_id", "product_id", "amount", "order_date"
+        "id",
+        "user_id",
+        "product_id",
+        "amount",
+        "order_date",
     }
 
 

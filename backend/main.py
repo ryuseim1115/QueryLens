@@ -27,5 +27,3 @@ app.include_router(result.router)
 app.include_router(upload_csv.router)
 app.include_router(create_table.router)
 app.include_router(drop_table.router)
-
-
