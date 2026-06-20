@@ -1,5 +1,5 @@
-from api.schemas.run_query import SubqueryAnalyzeResultList
 from api.db.connection import get_connection
+from api.schemas.run_query import SubqueryAnalyzeResultList
 
 
 def run_subqueries(subqueries: SubqueryAnalyzeResultList) -> SubqueryAnalyzeResultList:
