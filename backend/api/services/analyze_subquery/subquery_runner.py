@@ -1,5 +1,5 @@
-from infrastructure.duckdb.run_subqueries import run_subqueries
 from api.schemas.run_query import SubqueryAnalyzeResultList
+from infrastructure.duckdb.run_subqueries import run_subqueries
 
 
 class SubqueryRunner:

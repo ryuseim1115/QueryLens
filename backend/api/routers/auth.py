@@ -1,6 +1,6 @@
-from api.schemas.auth_info import AuthInfo
-
 from fastapi import APIRouter
+
+from api.schemas.auth_info import AuthInfo
 
 router = APIRouter()
 

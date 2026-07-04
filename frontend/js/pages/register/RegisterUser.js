@@ -6,8 +6,7 @@ function getRegisterInfo() {
 }
 registerBtn.addEventListener('click', async () => {
     const registerInfo = getRegisterInfo();
-    const response = await registerUser(registerInfo);
-
+    await registerUser(registerInfo);
 })
 
 

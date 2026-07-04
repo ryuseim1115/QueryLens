@@ -1,15 +1,13 @@
 import os
 
-from infrastructure.mysql import models
-from infrastructure.mysql.user_db import engine
 from api.routers import (
     auth,
-    register,
-    login,
     create_table,
     drop_table,
     get_csv_files,
     input,
+    login,
+    register,
     result,
     run_query,
     upload_csv,
@@ -17,6 +15,8 @@ from api.routers import (
 from config import TEMPLATES_DIR
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from infrastructure.mysql import models
+from infrastructure.mysql.user_db import engine
 
 app = FastAPI()
 

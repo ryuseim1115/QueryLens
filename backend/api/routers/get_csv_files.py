@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-
 from infrastructure.s3.get_csv_paths import get_csv_paths
 
 router = APIRouter()
