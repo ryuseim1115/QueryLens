@@ -14,3 +14,5 @@ REGION_NAME = os.getenv("REGION_NAME")
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 
 MYSQL_URL = os.getenv("MYSQL_URL")
+
+SESSION_SECRET_KEY = os.getenv("SESSION_SECRET_KEY")

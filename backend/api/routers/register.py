@@ -3,7 +3,7 @@ import os
 from config import TEMPLATES_DIR
 from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
-from infrastructure.mysql.user_db import get_db
+from infrastructure.mysql.user_db import get_session
 from sqlalchemy.orm import Session
 
 from api.schemas.register_info import RegisterInfo
@@ -18,5 +18,5 @@ def register():
 
 
 @router.post("/register")
-def register_user(*, db: Session = Depends(get_db), register_info: RegisterInfo):
+def register_user(*, db: Session = Depends(get_session), register_info: RegisterInfo):
     register_service.register(db, register_info)

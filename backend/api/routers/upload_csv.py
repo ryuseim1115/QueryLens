@@ -7,12 +7,14 @@ from config import (
     REGION_NAME,
     S3_BUCKET_NAME,
 )
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+
+from api.dependencies.require_login import require_login
 
 router = APIRouter()
 
 
-@router.post("/upload-csv", status_code=204)
+@router.post("/upload-csv", status_code=204, dependencies=[Depends(require_login)])
 def upload_csv(file: UploadFile = File(...)):
     if not file.filename.endswith(".csv"):
         raise HTTPException(
