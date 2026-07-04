@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from api.db.create_table import create_table
+from infrastructure.duckdb.create_table import create_table
 from api.schemas.file_info import FileInfo
 
 router = APIRouter()

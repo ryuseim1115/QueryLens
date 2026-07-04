@@ -1,4 +1,4 @@
-from api.db.connection import get_connection
+from infrastructure.duckdb.connection import get_connection
 
 
 def drop_table(file_name: str):

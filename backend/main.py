@@ -1,6 +1,11 @@
 import os
 
+from infrastructure.mysql import models
+from infrastructure.mysql.user_db import engine
 from api.routers import (
+    auth,
+    register,
+    login,
     create_table,
     drop_table,
     get_csv_files,
@@ -14,12 +19,17 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+
+models.Base.metadata.create_all(bind=engine)
 static_path = os.path.join(TEMPLATES_DIR, "js")
 css_path = os.path.join(TEMPLATES_DIR, "css")
 
 app.mount("/static", StaticFiles(directory=static_path), name="static")
 app.mount("/css", StaticFiles(directory=css_path), name="css")
 
+app.include_router(auth.router)
+app.include_router(register.router)
+app.include_router(login.router)
 app.include_router(run_query.router)
 app.include_router(get_csv_files.router)
 app.include_router(input.router)
