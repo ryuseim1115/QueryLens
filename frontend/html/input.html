@@ -43,6 +43,14 @@
     <dialog class="csv-file-dialog">
       <h2>解析対象とするCSVファイルにチェックを入れて下さい</h2>
 
+      <div class="upload-csv-row">
+        <input type="file" accept=".csv" class="upload-csv-input" hidden />
+        <button type="button" class="select-csv-btn">CSVファイルを選択</button>
+        <span class="upload-csv-filename"></span>
+        <button type="button" class="upload-csv-btn" disabled>アップロード</button>
+      </div>
+      <div class="upload-csv-status"></div>
+
       <div class="csv-file-list"></div>
       <div class="dialog-btn-row">
         <button class="close-btn">閉じる</button>
