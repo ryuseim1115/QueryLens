@@ -9,9 +9,7 @@ router = APIRouter()
 
 
 @router.post("/auth")
-def auth(
-    *, request: Request, db: Session = Depends(get_session), auth_info: AuthInfo
-):
+def auth(*, request: Request, db: Session = Depends(get_session), auth_info: AuthInfo):
     user_id = auth_service.authenticate(db, auth_info)
     request.session["user_id"] = user_id
     return {"message": "Authenticated"}
