@@ -12,13 +12,16 @@ from api.routers import (
     run_query,
     upload_csv,
 )
-from config import TEMPLATES_DIR
+from config import SESSION_SECRET_KEY, TEMPLATES_DIR
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from infrastructure.mysql import models
 from infrastructure.mysql.user_db import engine
+from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
+
+app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET_KEY)
 
 models.Base.metadata.create_all(bind=engine)
 static_path = os.path.join(TEMPLATES_DIR, "js")

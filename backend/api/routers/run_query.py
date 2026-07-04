@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
+from api.dependencies.require_login import require_login
 from api.schemas.run_query import QueryInfo, RunQueryResponse
 from api.services.analyze_subquery.query_structure_analyzer import (
     QueryStructureAnalyzer,
@@ -11,7 +12,11 @@ from api.validators.query_validator import QueryValidator
 router = APIRouter()
 
 
-@router.post("/run-query", response_model=RunQueryResponse)
+@router.post(
+    "/run-query",
+    response_model=RunQueryResponse,
+    dependencies=[Depends(require_login)],
+)
 def run_query(body: QueryInfo):
     try:
         QueryValidator(body.database_type, body.query).validate()
