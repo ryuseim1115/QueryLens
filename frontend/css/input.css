@@ -161,6 +161,75 @@ dialog ol {
   line-height: 2;
 }
 
+.upload-csv-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.select-csv-btn,
+.upload-csv-btn {
+  border-radius: 5px;
+  font-size: 0.85rem;
+}
+
+.select-csv-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.8rem;
+  color: var(--muted);
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.select-csv-btn:hover {
+  border-color: var(--muted-light);
+  color: var(--text);
+}
+
+.upload-csv-btn {
+  background: #2563eb;
+  color: var(--white);
+  border: none;
+  padding: 0.4rem 0.9rem;
+}
+
+.upload-csv-btn:disabled {
+  background: var(--muted-light);
+  cursor: not-allowed;
+}
+
+.select-csv-btn:focus-visible,
+.upload-csv-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.upload-csv-btn:hover:not(:disabled) {
+  background: var(--primary-hv);
+}
+
+.upload-csv-filename {
+  font-size: 0.82rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-csv-status {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  min-height: 1.1em;
+}
+
+.upload-csv-status.error {
+  color: var(--error-tx);
+}
+
 .csv-file-list {
   display: flex;
   flex-direction: column;
