@@ -1,0 +1,98 @@
+body {
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.login-form,
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2rem 2.25rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+.username-input,
+.password-input {
+  background: var(--surface-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.9rem;
+  padding: 0.625rem 0.875rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.username-input::placeholder,
+.password-input::placeholder {
+  color: var(--muted);
+}
+
+.username-input:focus,
+.password-input:focus {
+  border-color: var(--accent);
+}
+
+.login-btn,
+.register-btn {
+  background: var(--primary);
+  border: none;
+  border-radius: 6px;
+  color: var(--white);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  padding: 0.625rem;
+  transition: background 0.15s;
+}
+
+.login-btn:hover,
+.register-btn:hover {
+  background: var(--primary-hv);
+}
+
+.login-error,
+.register-error {
+  font-size: 0.82rem;
+  color: var(--error-tx);
+  background: var(--error-bg);
+  border: 1px solid var(--error-bd);
+  border-radius: 5px;
+  padding: 0.4rem 0.75rem;
+  display: none;
+}
+
+.login-error.visible,
+.register-error.visible {
+  display: block;
+}
+
+.register-link {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  padding-top: 0.25rem;
+  transition: opacity 0.15s;
+}
+
+.register-link:hover {
+  opacity: 0.75;
+}

@@ -1,5 +1,6 @@
-from api.db.connection import get_connection
 from api.schemas.run_query import SubqueryAnalyzeResultList
+
+from infrastructure.duckdb.connection import get_connection
 
 
 def run_subqueries(subqueries: SubqueryAnalyzeResultList) -> SubqueryAnalyzeResultList:

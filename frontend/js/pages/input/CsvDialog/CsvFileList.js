@@ -6,10 +6,14 @@ const openCsvFileListBtn = document.querySelector('.open-csv-btn');
 const csvFileList = document.querySelector('.csv-file-list');
 
 openCsvFileListBtn.addEventListener('click', async () => {
-  const csvData = await getCsvFiles();
-  renderCsvFileList(csvData.csv_files);
+  await reloadCsvFileList();
   openDialog();
 });
+
+export async function reloadCsvFileList() {
+  const csvData = await getCsvFiles();
+  renderCsvFileList(csvData.csv_files);
+}
 
 function renderCsvFileList(fileNames) {
   csvFileList.innerHTML = '';

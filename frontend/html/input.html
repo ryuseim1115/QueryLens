@@ -30,8 +30,10 @@
         </form>
 
         <div class="form-btn-row">
-          <button class="analysis-btn">解析</button>
-          <button class="open-csv-btn">解析対象のCSVファイルを選択</button>
+          <button type="button" class="analysis-btn">解析</button>
+          <button type="button" class="open-csv-btn">
+            解析対象のCSVファイルを選択
+          </button>
         </div>
 
         <div class="query-error"></div>
@@ -40,6 +42,14 @@
 
     <dialog class="csv-file-dialog">
       <h2>解析対象とするCSVファイルにチェックを入れて下さい</h2>
+
+      <div class="upload-csv-row">
+        <input type="file" accept=".csv" class="upload-csv-input" hidden />
+        <button type="button" class="select-csv-btn">CSVファイルを選択</button>
+        <span class="upload-csv-filename"></span>
+        <button type="button" class="upload-csv-btn" disabled>アップロード</button>
+      </div>
+      <div class="upload-csv-status"></div>
 
       <div class="csv-file-list"></div>
       <div class="dialog-btn-row">

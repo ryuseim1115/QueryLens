@@ -1,5 +1,5 @@
-import api.db.connection
 import duckdb
+import infrastructure.duckdb.connection
 
 _shared_connection = duckdb.connect()
 _shared_connection.sql("""
@@ -32,4 +32,4 @@ _shared_connection.sql("""
     ) t(id, name, price, category)
 """)
 
-api.db.connection.get_connection = lambda: _shared_connection
+infrastructure.duckdb.connection.get_connection = lambda: _shared_connection
