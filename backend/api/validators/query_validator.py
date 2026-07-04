@@ -1,7 +1,6 @@
 import sqlglot
+from infrastructure.duckdb.connection import get_connection
 from sqlglot import errors, exp, parse_one
-
-from api.db.connection import get_connection
 
 
 class QueryValidator:

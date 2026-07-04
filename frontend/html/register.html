@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>新規登録</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+
+  <body>
+    <h1>新規登録</h1>
+    <form class="register-form">
+      <input
+        type="text"
+        name="username"
+        placeholder="ユーザー名"
+        class="username-input"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="パスワード"
+        class="password-input"
+      />
+      <input
+        type="password"
+        name="password_confirm"
+        placeholder="パスワード（確認）"
+        class="password-input"
+      />
+      <button type="button" class="register-btn">登録する</button>
+      <a href="/login" class="register-link">ログインはこちら</a>
+    </form>
+    <script type="module" src="/static/pages/register/RegisterUser.js"></script>
+  </body>
+</html>
