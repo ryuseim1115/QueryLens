@@ -26,7 +26,7 @@ def upload_csv(file: UploadFile = File(...)):
     try:
         text = content.decode("utf-8")
         csv.Sniffer().sniff(text[:1024])
-    except UnicodeDecodeError, csv.Error:
+    except (UnicodeDecodeError, csv.Error):
         raise HTTPException(
             status_code=400,
             detail=f"{file.filename} はCSV形式ではありません。",
