@@ -5,8 +5,9 @@ body {
 main {
   flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: stretch;
+  padding: 4rem 1.5rem;
 }
 
 .query-form {
@@ -14,7 +15,8 @@ main {
   border-radius: 10px;
   padding: 1.75rem 2rem;
   width: 100%;
-  max-width: 700px;
+  max-width: none;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -24,6 +26,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .database-type-row {
@@ -58,13 +61,35 @@ textarea {
   font-size: 0.88rem;
   line-height: 1.6;
   resize: vertical;
-  min-height: 180px;
+  flex: 1;
+  min-height: 400px;
+}
+
+textarea::-webkit-resizer {
+  background-color: var(--bg);
+  background-image: linear-gradient(
+    135deg,
+    transparent 0%,
+    transparent 40%,
+    var(--muted-light) 40%,
+    var(--muted-light) 55%,
+    transparent 55%,
+    transparent 65%,
+    var(--muted-light) 65%,
+    var(--muted-light) 80%,
+    transparent 80%
+  );
 }
 
 .form-btn-row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.analysis-btn {
+  order: 1;
+  margin-left: auto;
 }
 
 .analysis-btn,
@@ -237,53 +262,43 @@ dialog ol {
   margin-bottom: 0.75rem;
 }
 
-.csv-file-list label {
+.csv-file-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.6rem;
   font-size: 0.88rem;
   color: var(--text);
-  cursor: pointer;
   padding: 0.4rem 0.5rem;
   border-radius: 5px;
   transition: background 0.15s;
 }
 
-.csv-file-list label:hover {
+.csv-file-row:hover {
   background: var(--surface-hover);
 }
 
-.csv-file-list input[type='checkbox'] {
-  appearance: none;
-  width: 1rem;
-  height: 1rem;
-  border: 1.5px solid var(--border);
-  border-radius: 3px;
-  background: var(--bg);
+.delete-csv-btn {
+  border-radius: 5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.7rem;
+  color: var(--muted);
+  font-size: 0.8rem;
   cursor: pointer;
-  flex-shrink: 0;
   transition:
-    background 0.15s,
-    border-color 0.15s;
-  position: relative;
+    border-color 0.15s,
+    color 0.15s;
 }
 
-.csv-file-list input[type='checkbox']:checked {
-  background: var(--accent);
-  border-color: var(--accent);
+.delete-csv-btn:hover {
+  border-color: var(--error-tx);
+  color: var(--error-tx);
 }
 
-.csv-file-list input[type='checkbox']:checked::after {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: -1px;
-  width: 5px;
-  height: 9px;
-  border: 2px solid var(--surface);
-  border-top: none;
-  border-left: none;
-  transform: rotate(45deg);
+.delete-csv-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .dialog-btn-row {

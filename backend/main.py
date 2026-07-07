@@ -3,6 +3,7 @@ import os
 from api.routers import (
     auth,
     create_table,
+    delete_csv,
     drop_table,
     get_csv_files,
     input,
@@ -42,3 +43,4 @@ app.include_router(result_view.router)
 app.include_router(upload_csv.router)
 app.include_router(create_table.router)
 app.include_router(drop_table.router)
+app.include_router(delete_csv.router)

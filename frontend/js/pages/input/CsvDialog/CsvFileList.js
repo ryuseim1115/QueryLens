@@ -1,6 +1,7 @@
+import { createTable } from '../../../api/CreateTable.js';
 import { getCsvFiles } from '../../../api/GetCsvFiles.js';
 import { openDialog } from './DialogControl.js';
-import { addAnalysisTargetListener } from './AddAnalysisTarget.js';
+import { addDeleteListener } from './DeleteCsv.js';
 
 const openCsvFileListBtn = document.querySelector('.open-csv-btn');
 const csvFileList = document.querySelector('.csv-file-list');
@@ -12,6 +13,7 @@ openCsvFileListBtn.addEventListener('click', async () => {
 
 export async function reloadCsvFileList() {
   const csvData = await getCsvFiles();
+  await Promise.all(csvData.untabled_files.map((fileName) => createTable(fileName)));
   renderCsvFileList(csvData.csv_files);
 }
 
@@ -19,16 +21,19 @@ function renderCsvFileList(fileNames) {
   csvFileList.innerHTML = '';
   fileNames.forEach((fileName) => {
     const csvFileDiv = document.createElement('div');
+    csvFileDiv.classList.add('csv-file-row');
 
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    addAnalysisTargetListener(checkbox, fileName);
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = fileName;
 
-    const label = document.createElement('label');
-    label.textContent = fileName;
-    label.prepend(checkbox);
+    const deleteBtn = document.createElement('button');
+    deleteBtn.type = 'button';
+    deleteBtn.classList.add('delete-csv-btn');
+    deleteBtn.textContent = '削除';
+    addDeleteListener(deleteBtn, fileName);
 
-    csvFileDiv.appendChild(label);
+    csvFileDiv.appendChild(nameSpan);
+    csvFileDiv.appendChild(deleteBtn);
     csvFileList.appendChild(csvFileDiv);
   });
 }
