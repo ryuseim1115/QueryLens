@@ -5,7 +5,8 @@ const POPUP_WIDTH = 960;
 const POPUP_HEIGHT = 640;
 
 window.addEventListener('message', (event) => {
-  if (event.origin !== location.origin || event.data?.type !== 'query-session-request') return;
+  if (event.origin !== location.origin || event.data?.type !== 'query-session-request')
+    return;
   event.source.postMessage(
     { type: 'query-session', payload: sessionStorage.getItem('querySession') },
     location.origin,

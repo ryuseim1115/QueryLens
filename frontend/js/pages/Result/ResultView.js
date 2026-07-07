@@ -5,7 +5,8 @@ function requestQuerySessionFromOpener() {
 
   return new Promise((resolve) => {
     function handleMessage(event) {
-      if (event.origin !== location.origin || event.data?.type !== 'query-session') return;
+      if (event.origin !== location.origin || event.data?.type !== 'query-session')
+        return;
       window.removeEventListener('message', handleMessage);
       resolve(event.data.payload);
     }
@@ -14,7 +15,8 @@ function requestQuerySessionFromOpener() {
   });
 }
 
-const stored = sessionStorage.getItem('querySession') ?? (await requestQuerySessionFromOpener());
+const stored =
+  sessionStorage.getItem('querySession') ?? (await requestQuerySessionFromOpener());
 
 if (!stored) {
   location.href = '/input';
@@ -25,7 +27,8 @@ if (!stored) {
 
   if (subquery?.parent_alias) {
     document.title = `QueryLens - 実行結果: ${subquery.parent_alias}`;
-    document.querySelector('.panel-header').textContent = `実行結果: ${subquery.parent_alias}`;
+    document.querySelector('.panel-header').textContent =
+      `実行結果: ${subquery.parent_alias}`;
   }
 
   renderResultTable(subquery ? subquery.result : null);
