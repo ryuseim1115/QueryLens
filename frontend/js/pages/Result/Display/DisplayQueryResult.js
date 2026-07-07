@@ -1,49 +1,35 @@
 import { findParentAliasEl } from '../../../common/SubqueryDomFinder.js';
 
+const RESULT_WINDOW_NAME = 'queryLensResult';
+const POPUP_WIDTH = 960;
+const POPUP_HEIGHT = 640;
+
+window.addEventListener('message', (event) => {
+  if (event.origin !== location.origin || event.data?.type !== 'query-session-request')
+    return;
+  event.source.postMessage(
+    { type: 'query-session', payload: sessionStorage.getItem('querySession') },
+    location.origin,
+  );
+});
+
 export function displayQueryResult(subqueries) {
   subqueries.forEach((subquery) => {
     const parentAlias = findParentAliasEl(subquery);
     if (!parentAlias) return;
-    parentAlias.addEventListener('click', () => renderQueryResult(subquery));
+    parentAlias.addEventListener('click', () => openResultPopup(subquery));
   });
 }
 
-function renderQueryResult(subquery) {
-  const rows = subquery.result;
-  const noResultEl = document.querySelector('.no-result');
-  const thead = document.querySelector('.result-body thead');
-  const tbody = document.querySelector('.result-body tbody');
+function openResultPopup(subquery) {
+  const left = Math.max(0, (window.screen.width - POPUP_WIDTH) / 2);
+  const top = Math.max(0, (window.screen.height - POPUP_HEIGHT) / 2);
+  const features = `width=${POPUP_WIDTH},height=${POPUP_HEIGHT},left=${left},top=${top},resizable=yes,scrollbars=yes`;
+  const table = encodeURIComponent(subquery.parent_alias ?? '');
 
-  thead.replaceChildren();
-  tbody.replaceChildren();
-
-  if (!rows || !rows.length) {
-    noResultEl.classList.add('visible');
-    return;
-  }
-
-  noResultEl.classList.remove('visible');
-  const columns = Object.keys(rows[0]);
-  thead.appendChild(buildHeaderRow(columns));
-  rows.forEach((row) => tbody.appendChild(buildDataRow(row, columns)));
-}
-
-function buildHeaderRow(columns) {
-  const tr = document.createElement('tr');
-  columns.forEach((col) => {
-    const th = document.createElement('th');
-    th.textContent = col;
-    tr.appendChild(th);
-  });
-  return tr;
-}
-
-function buildDataRow(row, columns) {
-  const tr = document.createElement('tr');
-  columns.forEach((col) => {
-    const td = document.createElement('td');
-    td.textContent = row[col];
-    tr.appendChild(td);
-  });
-  return tr;
+  window.open(
+    `/result-view?table=${table}&start_index=${subquery.start_index}`,
+    RESULT_WINDOW_NAME,
+    features,
+  );
 }
