@@ -9,6 +9,7 @@ from api.routers import (
     login,
     register,
     result,
+    result_view,
     run_query,
     upload_csv,
 )
@@ -37,6 +38,7 @@ app.include_router(run_query.router)
 app.include_router(get_csv_files.router)
 app.include_router(input.router)
 app.include_router(result.router)
+app.include_router(result_view.router)
 app.include_router(upload_csv.router)
 app.include_router(create_table.router)
 app.include_router(drop_table.router)
