@@ -26,10 +26,10 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET_KEY)
 
 models.Base.metadata.create_all(bind=engine)
-static_path = os.path.join(TEMPLATES_DIR, "js")
+js_path = os.path.join(TEMPLATES_DIR, "js")
 css_path = os.path.join(TEMPLATES_DIR, "css")
 
-app.mount("/static", StaticFiles(directory=static_path), name="static")
+app.mount("/js", StaticFiles(directory=js_path), name="js")
 app.mount("/css", StaticFiles(directory=css_path), name="css")
 
 app.include_router(auth.router)
