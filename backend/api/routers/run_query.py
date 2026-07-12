@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from api.dependencies.require_login import require_login
 from api.schemas.run_query import QueryInfo, RunQueryResponse
+from api.services.query_structure.query_block_runner import QueryBlockRunner
 from api.services.query_structure.query_structure_analyzer import (
     QueryStructureAnalyzer,
 )
-from api.services.query_structure.query_block_runner import QueryBlockRunner
 from api.services.query_structure.sort_query_blocks import SortQueryBlocksByDepthDesc
 from api.validators.query_validator import QueryValidator
 

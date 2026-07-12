@@ -1,6 +1,5 @@
 import pytest
 import sqlglot
-
 from api.services.query_structure.query_parser import parse_query_block
 
 

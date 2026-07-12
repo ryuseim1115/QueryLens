@@ -28,9 +28,7 @@ def test_parens_wrapped_query():
 
 
 def test_join_extracts_both_tables():
-    result = _extract(
-        "SELECT * FROM users JOIN orders ON users.id = orders.user_id"
-    )
+    result = _extract("SELECT * FROM users JOIN orders ON users.id = orders.user_id")
     names = [t[0] for t in result]
     assert "users" in names
     assert "orders" in names

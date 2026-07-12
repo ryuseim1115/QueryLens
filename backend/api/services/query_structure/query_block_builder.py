@@ -2,11 +2,11 @@ from dataclasses import dataclass
 
 import sqlglot
 from api.services.query_structure.depth_analyzer import get_query_block_depths
+from api.services.query_structure.query_parser import parse_query_block
 from api.services.query_structure.range_finder import (
     find_cte_ranges,
     find_subquery_ranges,
 )
-from api.services.query_structure.query_parser import parse_query_block
 from api.services.query_structure.table_name_extractor import (
     extract_table_names_with_alias,
 )
@@ -37,7 +37,8 @@ class QueryStructureBuilder:
         depths = get_query_block_depths(ranges)
         queries = [self.query[start:end] for start, end in ranges]
         # expressions は、queries を sqlglot でパースした AST（exp.Expression）のリスト
-        # 例: "SELECT id FROM users" -> Select(expressions=[Column(...)], from_=From(this=Table(...)))
+        # 例: "SELECT id FROM users"
+        # -> Select(expressions=[Column(...)], from_=From(this=Table(...)))
         expressions = [parse_query_block(query) for query in queries]
         query_block_tables_name_alias = [
             extract_table_names_with_alias(expression) for expression in expressions
