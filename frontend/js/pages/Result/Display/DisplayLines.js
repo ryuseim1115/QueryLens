@@ -1,6 +1,6 @@
-import { findParentAliasEl } from '../../../common/SubqueryDomFinder.js';
+import { findParentAliasEl } from '../../../common/QueryBlockDomFinder.js';
 
-export function displayLines(subqueries) {
+export function displayLines(queryBlocks) {
   const tablesEl = document.querySelector('.tables-list');
   const tablesRect = tablesEl.getBoundingClientRect();
 
@@ -16,19 +16,19 @@ export function displayLines(subqueries) {
   const ctx = canvas.getContext('2d');
   ctx.strokeStyle = '#60a5fa';
 
-  for (const subquery of subqueries) {
-    if (!subquery.parent_alias) continue;
+  for (const queryBlock of queryBlocks) {
+    if (!queryBlock.parent_alias) continue;
 
-    const parentEl = findParentAliasEl(subquery);
+    const parentEl = findParentAliasEl(queryBlock);
     if (!parentEl) continue;
     const parentRect = parentEl.getBoundingClientRect();
     const toX = parentRect.x - tablesRect.x;
     const toY = parentRect.y + parentRect.height / 2 - tablesRect.y;
 
-    const subqueryGroupEl = document.querySelector(
-      `.subquery-group[data-start-index="${subquery.start_index}"]`,
+    const queryBlockGroupEl = document.querySelector(
+      `.query-block-group[data-start-index="${queryBlock.start_index}"]`,
     );
-    for (const table of subqueryGroupEl.querySelectorAll('.table-item')) {
+    for (const table of queryBlockGroupEl.querySelectorAll('.table-item')) {
       const rect = table.getBoundingClientRect();
       const fromX = rect.x + rect.width - tablesRect.x;
       const fromY = rect.y + rect.height / 2 - tablesRect.y;

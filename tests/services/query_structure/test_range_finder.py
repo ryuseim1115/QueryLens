@@ -1,5 +1,5 @@
 import sqlglot
-from api.services.analyze_subquery.subquery_range_finder import (
+from api.services.query_structure.range_finder import (
     find_cte_ranges,
     find_subquery_ranges,
 )

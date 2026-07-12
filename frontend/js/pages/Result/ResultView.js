@@ -23,13 +23,15 @@ if (!stored) {
 } else {
   const parsed = JSON.parse(stored);
   const startIndex = Number(new URLSearchParams(location.search).get('start_index'));
-  const subquery = parsed.subqueryResults.find((sq) => sq.start_index === startIndex);
+  const queryBlock = parsed.queryBlockResults.find(
+    (qb) => qb.start_index === startIndex,
+  );
 
-  if (subquery?.parent_alias) {
-    document.title = `QueryLens - 実行結果: ${subquery.parent_alias}`;
+  if (queryBlock?.parent_alias) {
+    document.title = `QueryLens - 実行結果: ${queryBlock.parent_alias}`;
     document.querySelector('.panel-header').textContent =
-      `実行結果: ${subquery.parent_alias}`;
+      `実行結果: ${queryBlock.parent_alias}`;
   }
 
-  renderResultTable(subquery ? subquery.result : null);
+  renderResultTable(queryBlock ? queryBlock.result : null);
 }

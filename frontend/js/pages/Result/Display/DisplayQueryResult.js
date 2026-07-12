@@ -1,4 +1,4 @@
-import { findParentAliasEl } from '../../../common/SubqueryDomFinder.js';
+import { findParentAliasEl } from '../../../common/QueryBlockDomFinder.js';
 
 const RESULT_WINDOW_NAME = 'queryLensResult';
 const POPUP_WIDTH = 960;
@@ -13,22 +13,22 @@ window.addEventListener('message', (event) => {
   );
 });
 
-export function displayQueryResult(subqueries) {
-  subqueries.forEach((subquery) => {
-    const parentAlias = findParentAliasEl(subquery);
+export function displayQueryResult(queryBlocks) {
+  queryBlocks.forEach((queryBlock) => {
+    const parentAlias = findParentAliasEl(queryBlock);
     if (!parentAlias) return;
-    parentAlias.addEventListener('click', () => openResultPopup(subquery));
+    parentAlias.addEventListener('click', () => openResultPopup(queryBlock));
   });
 }
 
-function openResultPopup(subquery) {
+function openResultPopup(queryBlock) {
   const left = Math.max(0, (window.screen.width - POPUP_WIDTH) / 2);
   const top = Math.max(0, (window.screen.height - POPUP_HEIGHT) / 2);
   const features = `width=${POPUP_WIDTH},height=${POPUP_HEIGHT},left=${left},top=${top},resizable=yes,scrollbars=yes`;
-  const table = encodeURIComponent(subquery.parent_alias ?? '');
+  const table = encodeURIComponent(queryBlock.parent_alias ?? '');
 
   window.open(
-    `/result-view?table=${table}&start_index=${subquery.start_index}`,
+    `/result-view?table=${table}&start_index=${queryBlock.start_index}`,
     RESULT_WINDOW_NAME,
     features,
   );

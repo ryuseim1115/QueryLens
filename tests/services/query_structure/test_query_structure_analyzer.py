@@ -1,4 +1,4 @@
-from api.services.analyze_subquery.query_structure_analyzer import (
+from api.services.query_structure.query_structure_analyzer import (
     QueryStructureAnalyzer,
 )
 

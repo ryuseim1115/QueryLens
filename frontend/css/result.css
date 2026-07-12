@@ -100,11 +100,11 @@ body {
   outline: none;
 }
 
-.subquery-group {
+.query-block-group {
   margin-bottom: 0.5rem;
 }
 
-.subquery-group:last-child {
+.query-block-group:last-child {
   margin-bottom: 0;
 }
 

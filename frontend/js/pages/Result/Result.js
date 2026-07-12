@@ -9,10 +9,10 @@ if (!stored) {
 } else {
   const parsed = JSON.parse(stored);
   const query = parsed.query;
-  const subqueries = parsed.subqueryResults;
+  const queryBlocks = parsed.queryBlockResults;
 
   displayQuery(query);
-  displayTables(subqueries);
-  displayLines(subqueries);
-  displayQueryResult(subqueries);
+  displayTables(queryBlocks);
+  displayLines(queryBlocks);
+  displayQueryResult(queryBlocks);
 }
