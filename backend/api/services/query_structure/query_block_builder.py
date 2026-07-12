@@ -1,18 +1,19 @@
 from dataclasses import dataclass
 
 import sqlglot
-from api.services.analyze_subquery.subquery_depth_analyzer import get_subquery_depths
-from api.services.analyze_subquery.subquery_range_finder import (
+from api.services.query_structure.depth_analyzer import get_query_block_depths
+from api.services.query_structure.query_parser import parse_query_block
+from api.services.query_structure.range_finder import (
     find_cte_ranges,
     find_subquery_ranges,
 )
-from api.services.analyze_subquery.subquery_table_extractor import (
-    extract_tables_with_alias,
+from api.services.query_structure.table_name_extractor import (
+    extract_table_names_with_alias,
 )
 
 
 @dataclass
-class Subquery:
+class QueryBlock:
     start_index: int
     end_index: int
     query: str
@@ -21,30 +22,34 @@ class Subquery:
     parent_alias: str | None = None
 
 
-class AnalyzeSubquery:
+class QueryStructureBuilder:
     def __init__(self, query: str):
         self.query = query
         self._tokens = sqlglot.tokens.Tokenizer().tokenize(query)
 
-    def execute(self) -> list[Subquery]:
+    def execute(self) -> list[QueryBlock]:
         return self._build()
 
-    def _build(self) -> list[Subquery]:
+    def _build(self) -> list[QueryBlock]:
         subquery_ranges_alias = find_subquery_ranges(self.query, self._tokens)
         cte_ranges_alias = find_cte_ranges(self._tokens)
         ranges = list(subquery_ranges_alias.keys())
-        depths = get_subquery_depths(ranges)
+        depths = get_query_block_depths(ranges)
         queries = [self.query[start:end] for start, end in ranges]
-        subquery_tables_name_alias = [
-            extract_tables_with_alias(query) for query in queries
+        # expressions は、queries を sqlglot でパースした AST（exp.Expression）のリスト
+        # 例: "SELECT id FROM users"
+        # -> Select(expressions=[Column(...)], from_=From(this=Table(...)))
+        expressions = [parse_query_block(query) for query in queries]
+        query_block_tables_name_alias = [
+            extract_table_names_with_alias(expression) for expression in expressions
         ]
 
-        subqueries = []
+        query_blocks = []
         for (start, end), query, depth, tables_name_alias in zip(
-            ranges, queries, depths, subquery_tables_name_alias
+            ranges, queries, depths, query_block_tables_name_alias
         ):
-            subqueries.append(
-                Subquery(
+            query_blocks.append(
+                QueryBlock(
                     start_index=start,
                     end_index=end,
                     query=query,
@@ -55,4 +60,4 @@ class AnalyzeSubquery:
                 )
             )
 
-        return subqueries
+        return query_blocks

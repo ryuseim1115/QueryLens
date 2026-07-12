@@ -17,7 +17,7 @@ class TableInfo(BaseModel):
     alias: str | None = None
 
 
-class SubqueryAnalyzeResult(BaseModel):
+class QueryBlockAnalyzeResult(BaseModel):
     start_index: int
     end_index: int
     query: str
@@ -27,8 +27,8 @@ class SubqueryAnalyzeResult(BaseModel):
     result: list[dict[str, Any]]
 
 
-SubqueryAnalyzeResultList = list[SubqueryAnalyzeResult]
+QueryBlockAnalyzeResultList = list[QueryBlockAnalyzeResult]
 
 
 class RunQueryResponse(BaseModel):
-    subqueries: list[SubqueryAnalyzeResult]
+    query_blocks: list[QueryBlockAnalyzeResult]

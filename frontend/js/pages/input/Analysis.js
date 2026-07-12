@@ -11,10 +11,10 @@ function showError(message) {
   errorMsg.classList.add('visible');
 }
 
-function saveQuerySession(query, subqueries) {
+function saveQuerySession(query, queryBlocks) {
   sessionStorage.setItem(
     'querySession',
-    JSON.stringify({ query, subqueryResults: subqueries }),
+    JSON.stringify({ query, queryBlockResults: queryBlocks }),
   );
 }
 
@@ -31,6 +31,6 @@ document.querySelector('.analysis-btn').addEventListener('click', async () => {
   }
 
   const data = await response.json();
-  saveQuerySession(queryInfo.query, data.subqueries);
+  saveQuerySession(queryInfo.query, data.query_blocks);
   location.href = '/result';
 });

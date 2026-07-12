@@ -1,7 +1,7 @@
 import { highlightQuery } from './DisplayQuery.js';
 
-export function displayTables(subqueries) {
-  if (!subqueries.length) return;
+export function displayTables(queryBlocks) {
+  if (!queryBlocks.length) return;
 
   const tablesEl = document.querySelector('.tables-list');
   tablesEl.innerHTML = '';
@@ -9,22 +9,22 @@ export function displayTables(subqueries) {
   tablesEl.style.alignItems = 'flex-start';
   tablesEl.style.position = 'relative';
 
-  let currentDepth = subqueries[0].depth;
+  let currentDepth = queryBlocks[0].depth;
   let depthGroupEl = createDepthGroup(currentDepth);
   tablesEl.appendChild(depthGroupEl);
 
-  subqueries.forEach((subquery) => {
-    if (subquery.depth !== currentDepth) {
-      currentDepth = subquery.depth;
+  queryBlocks.forEach((queryBlock) => {
+    if (queryBlock.depth !== currentDepth) {
+      currentDepth = queryBlock.depth;
       depthGroupEl = createDepthGroup(currentDepth);
       tablesEl.appendChild(depthGroupEl);
     }
 
-    const subqueryGroupEl = document.createElement('div');
-    subqueryGroupEl.className = 'subquery-group';
-    subqueryGroupEl.dataset.startIndex = subquery.start_index;
+    const queryBlockGroupEl = document.createElement('div');
+    queryBlockGroupEl.className = 'query-block-group';
+    queryBlockGroupEl.dataset.startIndex = queryBlock.start_index;
 
-    subquery.tables_name_alias.forEach((table) => {
+    queryBlock.tables_name_alias.forEach((table) => {
       const tableEl = document.createElement('div');
       tableEl.className = 'table-item';
       tableEl.setAttribute('role', 'button');
@@ -36,7 +36,7 @@ export function displayTables(subqueries) {
       tableEl.dataset.alias = table.alias || '';
       const activate = (e) => {
         e.stopPropagation();
-        highlightQuery(subquery.start_index, subquery.end_index);
+        highlightQuery(queryBlock.start_index, queryBlock.end_index);
       };
       tableEl.addEventListener('click', activate);
       tableEl.addEventListener('keydown', (e) => {
@@ -45,10 +45,10 @@ export function displayTables(subqueries) {
           activate(e);
         }
       });
-      subqueryGroupEl.appendChild(tableEl);
+      queryBlockGroupEl.appendChild(tableEl);
     });
 
-    depthGroupEl.appendChild(subqueryGroupEl);
+    depthGroupEl.appendChild(queryBlockGroupEl);
   });
 }
 

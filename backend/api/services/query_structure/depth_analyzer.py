@@ -1,4 +1,4 @@
-def get_subquery_depths(ranges: list[tuple[int, int]]) -> list[int]:
+def get_query_block_depths(ranges: list[tuple[int, int]]) -> list[int]:
     # 各範囲について、自身を完全に含む範囲の数をカウントすることでネスト深さを算出する
     depths = []
     for target_start, target_end in ranges:
