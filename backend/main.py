@@ -2,7 +2,6 @@ import os
 
 from api.dependencies.require_login import NotLoggedInError
 from api.routers import (
-    auth,
     create_table,
     drop_table,
     get_file_memory_status,
@@ -42,7 +41,6 @@ css_path = os.path.join(TEMPLATES_DIR, "css")
 app.mount("/js", StaticFiles(directory=js_path), name="js")
 app.mount("/css", StaticFiles(directory=css_path), name="css")
 
-app.include_router(auth.router)
 app.include_router(register.router)
 app.include_router(login.router)
 app.include_router(input.router)
