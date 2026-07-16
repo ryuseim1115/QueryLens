@@ -94,7 +94,7 @@ textarea::-webkit-resizer {
 
 .analysis-btn,
 .determine-btn,
-.open-csv-btn,
+.open-file-btn,
 .close-btn {
   border-radius: 5px;
 }
@@ -112,7 +112,7 @@ textarea::-webkit-resizer {
   background: var(--primary-hv);
 }
 
-.open-csv-btn,
+.open-file-btn,
 .close-btn {
   background: transparent;
   border: 1px solid var(--border);
@@ -126,14 +126,20 @@ textarea::-webkit-resizer {
 
 .analysis-btn:focus-visible,
 .determine-btn:focus-visible,
-.open-csv-btn:focus-visible,
+.open-file-btn:focus-visible,
 .close-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-.open-csv-btn:hover,
-.close-btn:hover {
+.open-file-btn:disabled,
+.close-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.open-file-btn:hover:not(:disabled),
+.close-btn:hover:not(:disabled) {
   border-color: var(--muted-light);
   color: var(--text);
 }
@@ -186,20 +192,20 @@ dialog ol {
   line-height: 2;
 }
 
-.upload-csv-row {
+.upload-file-row {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   margin-bottom: 0.5rem;
 }
 
-.select-csv-btn,
-.upload-csv-btn {
+.select-file-btn,
+.upload-file-btn {
   border-radius: 5px;
   font-size: 0.85rem;
 }
 
-.select-csv-btn {
+.select-file-btn {
   background: transparent;
   border: 1px solid var(--border);
   padding: 0.4rem 0.8rem;
@@ -209,34 +215,39 @@ dialog ol {
     color 0.15s;
 }
 
-.select-csv-btn:hover {
+.select-file-btn:hover:not(:disabled) {
   border-color: var(--muted-light);
   color: var(--text);
 }
 
-.upload-csv-btn {
+.select-file-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.upload-file-btn {
   background: #2563eb;
   color: var(--white);
   border: none;
   padding: 0.4rem 0.9rem;
 }
 
-.upload-csv-btn:disabled {
+.upload-file-btn:disabled {
   background: var(--muted-light);
   cursor: not-allowed;
 }
 
-.select-csv-btn:focus-visible,
-.upload-csv-btn:focus-visible {
+.select-file-btn:focus-visible,
+.upload-file-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-.upload-csv-btn:hover:not(:disabled) {
+.upload-file-btn:hover:not(:disabled) {
   background: var(--primary-hv);
 }
 
-.upload-csv-filename {
+.upload-file-filename {
   font-size: 0.82rem;
   color: var(--muted);
   overflow: hidden;
@@ -244,25 +255,43 @@ dialog ol {
   white-space: nowrap;
 }
 
-.upload-csv-status {
+.upload-file-status {
   font-size: 0.82rem;
   color: var(--muted);
   margin-bottom: 0.75rem;
   min-height: 1.1em;
+  white-space: pre-line;
 }
 
-.upload-csv-status.error {
+.upload-file-status:empty {
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.upload-file-status.error {
   color: var(--error-tx);
 }
 
-.csv-file-list {
+.loading-status {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  min-height: 1.1em;
+}
+
+.loading-status:empty {
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.file-list {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   margin-bottom: 0.75rem;
 }
 
-.csv-file-row {
+.file-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -274,11 +303,11 @@ dialog ol {
   transition: background 0.15s;
 }
 
-.csv-file-row:hover {
+.file-row:hover {
   background: var(--surface-hover);
 }
 
-.delete-csv-btn {
+.delete-file-btn {
   border-radius: 5px;
   background: transparent;
   border: 1px solid var(--border);
@@ -291,12 +320,12 @@ dialog ol {
     color 0.15s;
 }
 
-.delete-csv-btn:hover {
+.delete-file-btn:hover {
   border-color: var(--error-tx);
   color: var(--error-tx);
 }
 
-.delete-csv-btn:focus-visible {
+.delete-file-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -306,10 +335,4 @@ dialog ol {
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
-}
-
-.dialog-error {
-  font-size: 0.82rem;
-  color: var(--error-tx);
-  margin-top: 0.5rem;
 }

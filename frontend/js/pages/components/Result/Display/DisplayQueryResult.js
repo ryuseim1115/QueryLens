@@ -1,4 +1,4 @@
-import { findParentAliasEl } from '../../../common/QueryBlockDomFinder.js';
+import { findParentAliasEl } from '../../../../common/QueryBlockDomFinder.js';
 
 const RESULT_WINDOW_NAME = 'queryLensResult';
 const POPUP_WIDTH = 960;

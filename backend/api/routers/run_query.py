@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from api.dependencies.require_login import require_login
+from api.dependencies.require_login import require_login_api
 from api.schemas.run_query import QueryInfo, RunQueryResponse
 from api.services.query_structure.query_block_runner import QueryBlockRunner
 from api.services.query_structure.query_structure_analyzer import (
@@ -15,14 +15,13 @@ router = APIRouter()
 @router.post(
     "/run-query",
     response_model=RunQueryResponse,
-    dependencies=[Depends(require_login)],
 )
-def run_query(body: QueryInfo):
+def run_query(body: QueryInfo, user_id: int = Depends(require_login_api)):
     try:
-        QueryValidator(body.database_type, body.query).validate()
+        QueryValidator(body.database_type, body.query, user_id).validate()
         query_blocks = QueryStructureAnalyzer(body.query).execute()
         query_blocks = SortQueryBlocksByDepthDesc(query_blocks).execute()
-        query_blocks = QueryBlockRunner(query_blocks).execute()
+        query_blocks = QueryBlockRunner(user_id, query_blocks).execute()
         return RunQueryResponse(query_blocks=query_blocks)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
