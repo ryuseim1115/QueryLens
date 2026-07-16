@@ -15,3 +15,7 @@ def get_connection() -> duckdb.DuckDBPyconnection:
             SET s3_secret_access_key='{AWS_SECRET_ACCESS_KEY_ID}';"""
         )
     return connection
+
+
+def get_user_schema(user_id: int) -> str:
+    return f"user_{user_id}"

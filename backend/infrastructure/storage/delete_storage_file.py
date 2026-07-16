@@ -7,11 +7,11 @@ from config import (
 )
 
 
-def delete_csv(file_name: str) -> None:
+def delete_storage_file(user_id: int, file_name: str) -> None:
     client = boto3.client(
         "s3",
         aws_access_key_id=AWS_ACCESS_KEY_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY_ID,
         region_name=REGION_NAME,
     )
-    client.delete_object(Bucket=S3_BUCKET_NAME, Key=file_name)
+    client.delete_object(Bucket=S3_BUCKET_NAME, Key=f"{user_id}/{file_name}")

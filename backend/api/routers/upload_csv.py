@@ -9,13 +9,15 @@ from config import (
 )
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
-from api.dependencies.require_login import require_login
+from api.dependencies.require_login import require_login_api
 
 router = APIRouter()
 
 
-@router.post("/upload-csv", status_code=204, dependencies=[Depends(require_login)])
-def upload_csv(file: UploadFile = File(...)):
+@router.post("/upload-csv", status_code=204)
+def upload_csv(
+    file: UploadFile = File(...), user_id: int = Depends(require_login_api)
+):
     if not file.filename.endswith(".csv"):
         raise HTTPException(
             status_code=400,
@@ -26,7 +28,7 @@ def upload_csv(file: UploadFile = File(...)):
     try:
         text = content.decode("utf-8")
         csv.Sniffer().sniff(text[:1024])
-    except UnicodeDecodeError, csv.Error:
+    except (UnicodeDecodeError, csv.Error):
         raise HTTPException(
             status_code=400,
             detail=f"{file.filename} はCSV形式ではありません。",
@@ -38,4 +40,6 @@ def upload_csv(file: UploadFile = File(...)):
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY_ID,
         region_name=REGION_NAME,
     )
-    s3.put_object(Bucket=S3_BUCKET_NAME, Key=file.filename, Body=content)
+    s3.put_object(
+        Bucket=S3_BUCKET_NAME, Key=f"{user_id}/{file.filename}", Body=content
+    )

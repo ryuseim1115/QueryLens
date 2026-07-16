@@ -1,12 +1,13 @@
 import sqlglot
-from infrastructure.duckdb.connection import get_connection
+from infrastructure.in_memory.get_in_memory_table_names import get_in_memory_table_names
 from sqlglot import errors, exp, parse_one
 
 
 class QueryValidator:
-    def __init__(self, database_type: str, query: str):
+    def __init__(self, database_type: str, query: str, user_id: int):
         self.database_type = database_type
         self.query = query
+        self.user_id = user_id
 
     def validate(self) -> sqlglot.Expression:
         try:
@@ -30,11 +31,10 @@ class QueryValidator:
         if not query_tables:
             return
 
-        connection = get_connection()
-        existing = {row[0] for row in connection.sql("SHOW TABLES").fetchall()}
-        missing = query_tables - existing
+        memory_table_names = get_in_memory_table_names(self.user_id)
+        missing = query_tables - memory_table_names
         if missing:
             raise ValueError(
-                "次のテーブルに対応するCSVファイルがアップロードされていません: "
+                "次のテーブルに対応するファイルがアップロードされていません: "
                 f"{', '.join(sorted(missing))}"
             )

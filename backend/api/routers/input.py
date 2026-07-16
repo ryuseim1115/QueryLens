@@ -1,16 +1,14 @@
 import os
 
 from config import TEMPLATES_DIR
-from fastapi import APIRouter, Request
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi import APIRouter, Depends
+from fastapi.responses import FileResponse
 
-from api.dependencies.require_login import is_logged_in
+from api.dependencies.require_login import require_login_page
 
 router = APIRouter()
 
 
 @router.get("/input")
-def input(request: Request):
-    if not is_logged_in(request):
-        return RedirectResponse(url="/login")
+def input(user_id: int = Depends(require_login_page)):
     return FileResponse(os.path.join(TEMPLATES_DIR, "html", "input.html"))
