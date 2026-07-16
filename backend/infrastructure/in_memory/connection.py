@@ -19,10 +19,12 @@ def get_connection() -> duckdb.DuckDBPyconnection:
             if connection is None:
                 connection = duckdb.connect()
                 connection.execute("INSTALL httpfs; LOAD httpfs;")
+                # SET GLOBALでないとconnection.cursor()で作った専用セッションに
+                # 設定が引き継がれず、S3への認証が失敗する
                 connection.execute(
-                    f""" SET s3_region='{REGION_NAME}';
-                    SET s3_access_key_id='{AWS_ACCESS_KEY_ID}';
-                    SET s3_secret_access_key='{AWS_SECRET_ACCESS_KEY_ID}';"""
+                    f""" SET GLOBAL s3_region='{REGION_NAME}';
+                    SET GLOBAL s3_access_key_id='{AWS_ACCESS_KEY_ID}';
+                    SET GLOBAL s3_secret_access_key='{AWS_SECRET_ACCESS_KEY_ID}';"""
                 )
     return connection
 
