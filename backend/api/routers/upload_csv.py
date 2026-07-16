@@ -15,9 +15,7 @@ router = APIRouter()
 
 
 @router.post("/upload-csv", status_code=204)
-def upload_csv(
-    file: UploadFile = File(...), user_id: int = Depends(require_login_api)
-):
+def upload_csv(file: UploadFile = File(...), user_id: int = Depends(require_login_api)):
     if not file.filename.endswith(".csv"):
         raise HTTPException(
             status_code=400,
@@ -28,7 +26,7 @@ def upload_csv(
     try:
         text = content.decode("utf-8")
         csv.Sniffer().sniff(text[:1024])
-    except (UnicodeDecodeError, csv.Error):
+    except UnicodeDecodeError, csv.Error:
         raise HTTPException(
             status_code=400,
             detail=f"{file.filename} はCSV形式ではありません。",
@@ -40,6 +38,4 @@ def upload_csv(
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY_ID,
         region_name=REGION_NAME,
     )
-    s3.put_object(
-        Bucket=S3_BUCKET_NAME, Key=f"{user_id}/{file.filename}", Body=content
-    )
+    s3.put_object(Bucket=S3_BUCKET_NAME, Key=f"{user_id}/{file.filename}", Body=content)
