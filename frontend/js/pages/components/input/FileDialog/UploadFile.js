@@ -1,6 +1,9 @@
 import { uploadCsv } from '../../../../api/UploadCsv.js';
 import { importFile } from './CreateTables.js';
-import { getDuplicateFileNames, describeDuplicateFileNames } from './DuplicateFileCheck.js';
+import {
+  getDuplicateFileNames,
+  describeDuplicateFileNames,
+} from './DuplicateFileCheck.js';
 
 const nativeFileInput = document.querySelector('.upload-file-input');
 const selectFileBtn = document.querySelector('.select-file-btn');
@@ -96,7 +99,10 @@ uploadBtn.addEventListener('click', async () => {
   loadingStatus.textContent = '';
 
   // ストレージへのアップロードが失敗したファイルがあればまとめてエラー表示、なければ何も表示しない
-  showStatus(failedFiles.length > 0 ? failedFiles.join('\n') : '', failedFiles.length > 0);
+  showStatus(
+    failedFiles.length > 0 ? failedFiles.join('\n') : '',
+    failedFiles.length > 0,
+  );
 
   resetFileSelection();
 
