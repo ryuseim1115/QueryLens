@@ -215,21 +215,16 @@ dialog ol {
     color 0.15s;
 }
 
-.select-file-btn:hover:not(:disabled) {
-  border-color: var(--muted-light);
-  color: var(--text);
-}
-
-.select-file-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
 .upload-file-btn {
   background: #2563eb;
   color: var(--white);
   border: none;
   padding: 0.4rem 0.9rem;
+}
+
+.select-file-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .upload-file-btn:disabled {
@@ -241,6 +236,11 @@ dialog ol {
 .upload-file-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.select-file-btn:hover:not(:disabled) {
+  border-color: var(--muted-light);
+  color: var(--text);
 }
 
 .upload-file-btn:hover:not(:disabled) {

@@ -14,9 +14,7 @@ def get_storage_paths(user_id: int) -> list[str]:
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY_ID,
         region_name=REGION_NAME,
     )
-    files_info = client.list_objects_v2(
-        Bucket=S3_BUCKET_NAME, Prefix=f"{user_id}/"
-    )
+    files_info = client.list_objects_v2(Bucket=S3_BUCKET_NAME, Prefix=f"{user_id}/")
     return [
         f"s3://{S3_BUCKET_NAME}/{file_info['Key']}"
         for file_info in files_info.get("Contents", [])

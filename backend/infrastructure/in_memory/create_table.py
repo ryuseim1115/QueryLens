@@ -10,7 +10,6 @@ def create_table(user_id: int, file_name: str):
     connection = get_connection()
     connection.sql(f'CREATE SCHEMA IF NOT EXISTS "{schema}"')
     sql = (
-        f'CREATE OR REPLACE TABLE "{schema}"."{table_name}" '
-        f"AS SELECT * FROM '{path}'"
+        f'CREATE OR REPLACE TABLE "{schema}"."{table_name}" AS SELECT * FROM \'{path}\''
     )
     connection.sql(sql)
