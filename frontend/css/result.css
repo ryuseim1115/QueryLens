@@ -68,10 +68,28 @@ body {
 }
 
 .query-display {
-  white-space: pre-wrap;
   font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
   font-size: 0.82rem;
   line-height: 1.6;
+}
+
+.query-line {
+  display: flex;
+}
+
+.query-line-number {
+  flex: 0 0 auto;
+  min-width: 2.25em;
+  margin-right: 0.9em;
+  text-align: right;
+  color: var(--muted);
+  user-select: none;
+}
+
+.query-line-content {
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .depth-group {
