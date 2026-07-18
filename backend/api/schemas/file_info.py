@@ -1,7 +1,8 @@
-from api.validators.csv_file_name_validator import CsvFileNameValidator
 from infrastructure.security.strip_path import strip_path
 from pydantic import BaseModel, ConfigDict, field_validator
 from pydantic.alias_generators import to_camel
+
+from api.validators.csv_file_name_validator import CsvFileNameValidator
 
 
 class FileInfo(BaseModel):

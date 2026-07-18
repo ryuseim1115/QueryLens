@@ -3,7 +3,7 @@ from infrastructure.duckdb.get_table_names import get_table_names
 
 
 def get_file_table_status(user_id: int) -> dict[str, list[str]]:
-    # ディスク上の該当ユーザーの全ファイルのパス一覧を取得し、ファイル名だけのリストにする
+    # ディスク上の該当ユーザーの全ファイルのパスを取得し、ファイル名だけのリストにする
     disk_paths = get_disk_paths(user_id)
     disk_files = [path.split("/")[-1] for path in disk_paths]
 

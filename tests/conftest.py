@@ -1,10 +1,9 @@
 import duckdb
-import infrastructure.in_memory.connection
+import infrastructure.duckdb.connection
 
 _shared_connection = duckdb.connect()
-_shared_connection.sql('CREATE SCHEMA IF NOT EXISTS "user_1"')
 _shared_connection.sql("""
-    CREATE TABLE "user_1".users AS SELECT * FROM (VALUES
+    CREATE TABLE users AS SELECT * FROM (VALUES
         (1, '山田太郎', 'yamada@example.com', 28),
         (2, '鈴木花子', 'suzuki@example.com', 34),
         (3, '佐藤次郎', 'sato@example.com', 22),
@@ -13,7 +12,7 @@ _shared_connection.sql("""
     ) t(id, name, email, age)
 """)
 _shared_connection.sql("""
-    CREATE TABLE "user_1".orders AS SELECT * FROM (VALUES
+    CREATE TABLE orders AS SELECT * FROM (VALUES
         (1, 1, 3, 1500, '2024-01-10'),
         (2, 2, 1, 3200, '2024-01-11'),
         (3, 1, 2, 800,  '2024-01-12'),
@@ -24,7 +23,7 @@ _shared_connection.sql("""
     ) t(id, user_id, product_id, amount, order_date)
 """)
 _shared_connection.sql("""
-    CREATE TABLE "user_1".products AS SELECT * FROM (VALUES
+    CREATE TABLE products AS SELECT * FROM (VALUES
         (1, 'ノートPC',   120000, '電子機器'),
         (2, 'マウス',       2500, '電子機器'),
         (3, 'コーヒー豆',   1500, '食品'),
@@ -33,4 +32,17 @@ _shared_connection.sql("""
     ) t(id, name, price, category)
 """)
 
-infrastructure.in_memory.connection.get_connection = lambda: _shared_connection
+# 新設計ではユーザーごとに別々のDuckDBファイル(=別connection)で分離されるため、
+# テストでもuser_idごとに独立したconnectionを返す(user_id=1のみデータ投入済み)。
+_other_connections: dict[int, duckdb.DuckDBPyConnection] = {}
+
+
+def _get_connection_for_test(user_id: int) -> duckdb.DuckDBPyConnection:
+    if user_id == 1:
+        return _shared_connection
+    if user_id not in _other_connections:
+        _other_connections[user_id] = duckdb.connect()
+    return _other_connections[user_id]
+
+
+infrastructure.duckdb.connection.get_connection = _get_connection_for_test
