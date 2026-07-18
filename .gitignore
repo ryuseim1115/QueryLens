@@ -6,4 +6,4 @@ node_modules/
 tmp/
 *.duckdb
 *.duckdb.wal
-backend/data/
+data/
