@@ -10,7 +10,9 @@ TEMPLATES_DIR = os.path.abspath(
 
 MYSQL_URL = os.getenv("MYSQL_URL")
 
-DATA_DIR = os.getenv("DATA_DIR", os.path.join(os.path.dirname(__file__), "data"))
+DATA_DIR = os.getenv(
+    "DATA_DIR", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))
+)
 
 # ファイル名は user_id から決まるため、ここではディレクトリのみ管理する
 DUCKDB_DIR = os.getenv("DUCKDB_DIR", os.path.join(DATA_DIR, "duckdb"))
