@@ -1,3 +1,4 @@
+import { runQuery } from '../../../api/RunQuery.js';
 import { renderResultTable } from './Display/RenderResultTable.js';
 
 function requestQuerySessionFromOpener() {
@@ -21,17 +22,23 @@ const stored =
 if (!stored) {
   location.href = '/input';
 } else {
-  const parsed = JSON.parse(stored);
+  // セッションにはクエリ情報のみ保存されているため、解析結果はここで取り直す
+  const queryInfo = JSON.parse(stored);
   const startIndex = Number(new URLSearchParams(location.search).get('start_index'));
-  const queryBlock = parsed.queryBlockResults.find(
-    (qb) => qb.start_index === startIndex,
-  );
 
-  if (queryBlock?.parent_alias) {
-    document.title = `QueryLens - 実行結果: ${queryBlock.parent_alias}`;
-    document.querySelector('.panel-header').textContent =
-      `実行結果: ${queryBlock.parent_alias}`;
+  const response = await runQuery(queryInfo);
+  if (!response.ok) {
+    location.href = '/input';
+  } else {
+    const data = await response.json();
+    const queryBlock = data.query_blocks.find((qb) => qb.start_index === startIndex);
+
+    if (queryBlock?.parent_alias) {
+      document.title = `QueryLens - 実行結果: ${queryBlock.parent_alias}`;
+      document.querySelector('.panel-header').textContent =
+        `実行結果: ${queryBlock.parent_alias}`;
+    }
+
+    renderResultTable(queryBlock ? queryBlock.result : null);
   }
-
-  renderResultTable(queryBlock ? queryBlock.result : null);
 }

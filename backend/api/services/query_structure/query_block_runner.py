@@ -1,5 +1,5 @@
 from api.schemas.run_query import QueryBlockAnalyzeResultList
-from infrastructure.in_memory.run_query_blocks import run_query_blocks
+from infrastructure.duckdb.run_query_blocks import run_query_blocks
 
 
 class QueryBlockRunner:

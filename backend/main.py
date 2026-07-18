@@ -4,7 +4,7 @@ from api.dependencies.require_login import NotLoggedInError
 from api.routers import (
     create_table,
     drop_table,
-    get_file_memory_status,
+    get_file_table_status,
     input,
     login,
     purge_file,
@@ -16,7 +16,7 @@ from api.routers import (
 )
 from config import SESSION_SECRET_KEY, TEMPLATES_DIR
 from fastapi import FastAPI, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from infrastructure.mysql import models
 from infrastructure.mysql.user_db import engine
@@ -32,6 +32,13 @@ app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET_KEY)
 @app.exception_handler(NotLoggedInError)
 def handle_not_logged_in(request: Request, exception: NotLoggedInError):
     return RedirectResponse(url="/login")
+
+
+# サービス層はHTTPを知らないため、業務エラーはHTTPExceptionではなくValueErrorで
+# 表現する。ここで一括してHTTPの語彙(400)に変換し、各ルータでのtry/exceptを不要にする
+@app.exception_handler(ValueError)
+def handle_value_error(request: Request, exception: ValueError):
+    return JSONResponse(status_code=400, content={"detail": str(exception)})
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -51,4 +58,4 @@ app.include_router(upload_csv.router)
 app.include_router(create_table.router)
 app.include_router(drop_table.router)
 app.include_router(purge_file.router)
-app.include_router(get_file_memory_status.router)
+app.include_router(get_file_table_status.router)
