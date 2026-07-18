@@ -32,4 +32,17 @@ _shared_connection.sql("""
     ) t(id, name, price, category)
 """)
 
-infrastructure.duckdb.connection.get_connection = lambda: _shared_connection
+# 新設計ではユーザーごとに別々のDuckDBファイル(=別connection)で分離されるため、
+# テストでもuser_idごとに独立したconnectionを返す(user_id=1のみデータ投入済み)。
+_other_connections: dict[int, duckdb.DuckDBPyConnection] = {}
+
+
+def _get_connection_for_test(user_id: int) -> duckdb.DuckDBPyConnection:
+    if user_id == 1:
+        return _shared_connection
+    if user_id not in _other_connections:
+        _other_connections[user_id] = duckdb.connect()
+    return _other_connections[user_id]
+
+
+infrastructure.duckdb.connection.get_connection = _get_connection_for_test

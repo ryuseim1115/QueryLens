@@ -13,27 +13,20 @@
       <div class="logo">Query<span>Lens</span></div>
     </header>
 
-    <div class="tables-panel">
-      <div class="panel-header">テーブル一覧</div>
-      <div class="tables-list"></div>
-    </div>
+    <div class="main-content">
+      <div class="query-panel">
+        <div class="panel-header">クエリ</div>
+        <div class="query-body">
+          <div class="query-display"></div>
+        </div>
+      </div>
 
-    <div class="query-panel">
-      <div class="panel-header">クエリ</div>
-      <div class="query-body">
-        <pre class="query-display"></pre>
+      <div class="tables-panel">
+        <div class="panel-header">テーブル一覧</div>
+        <div class="tables-list"></div>
       </div>
     </div>
 
-    <div class="result-panel">
-      <div class="panel-header">実行結果</div>
-      <p class="no-result">抽出結果は0件です</p>
-      <table class="result-body result-table">
-        <thead></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <script type="module" src="/static/pages/Result/Result.js"></script>
+    <script type="module" src="/js/pages/entries/Result.js"></script>
   </body>
 </html>
