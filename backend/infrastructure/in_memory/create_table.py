@@ -7,7 +7,7 @@ def create_table(user_id: int, file_name: str):
     schema = get_user_schema(user_id)
     path = f"s3://{S3_BUCKET_NAME}/{user_id}/{file_name}"
     table_name = file_name.removesuffix(".csv")
-    connection = get_connection()
+    connection = get_connection().cursor()
     connection.sql(f'CREATE SCHEMA IF NOT EXISTS "{schema}"')
     sql = (
         f'CREATE OR REPLACE TABLE "{schema}"."{table_name}" AS SELECT * FROM \'{path}\''
