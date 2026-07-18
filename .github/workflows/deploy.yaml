@@ -16,7 +16,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           command_timeout: 30m
           script: |
+            set -e
             cd ~/QueryLens
             git pull origin production
-            for i in 1 2 3; do poetry install && break || sleep 10; done
+            for i in 1 2 3; do poetry install && break || { [ "$i" = 3 ] && exit 1; sleep 10; }; done
             sudo systemctl restart querylens
