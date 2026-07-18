@@ -53,19 +53,47 @@ select {
   padding: 0.35rem 0.65rem;
 }
 
+.query-editor {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  flex: 1;
+  height: 400px;
+  resize: vertical;
+  overflow: hidden;
+}
+
+.query-line-numbers {
+  flex: 0 0 auto;
+  padding: 0.75rem 0.5rem 0.75rem 0.75rem;
+  font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  text-align: right;
+  color: var(--muted);
+  border-right: 1px solid var(--border);
+  white-space: pre;
+  overflow: hidden;
+  user-select: none;
+}
+
 textarea {
   width: 100%;
-  border-radius: 5px;
+  border-radius: 0;
+  border: none;
   padding: 0.75rem;
   font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
   font-size: 0.88rem;
   line-height: 1.6;
-  resize: vertical;
+  resize: none;
   flex: 1;
-  min-height: 400px;
+  overflow: auto;
+  white-space: pre;
 }
 
-textarea::-webkit-resizer {
+.query-editor::-webkit-resizer {
   background-color: var(--bg);
   background-image: linear-gradient(
     135deg,
