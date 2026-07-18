@@ -1,7 +1,7 @@
 import os
 
 from config import TEMPLATES_DIR
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse
 from infrastructure.mysql.user_db import get_session
 from sqlalchemy.orm import Session
@@ -19,7 +19,4 @@ def register():
 
 @router.post("/register")
 def register_user(*, db: Session = Depends(get_session), register_info: RegisterInfo):
-    try:
-        register_service.register(db, register_info)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    register_service.register(db, register_info)

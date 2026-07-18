@@ -19,8 +19,4 @@ jobs:
             cd ~/QueryLens
             git pull origin production
             for i in 1 2 3; do poetry install && break || sleep 10; done
-            echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" > backend/.env
-            echo "AWS_SECRET_ACCESS_KEY_ID=${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}" >> backend/.env
-            echo "REGION_NAME=${{ secrets.REGION_NAME }}" >> backend/.env
-            echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> backend/.env
             sudo systemctl restart querylens

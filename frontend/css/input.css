@@ -90,6 +90,7 @@ textarea::-webkit-resizer {
 .analysis-btn {
   order: 1;
   margin-left: auto;
+  position: relative;
 }
 
 .analysis-btn,
@@ -130,6 +131,35 @@ textarea::-webkit-resizer {
 .close-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.analysis-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.analysis-btn.loading {
+  padding-left: 2.3rem;
+}
+
+.analysis-btn.loading::before {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-top: -0.425rem;
+  border: 2px solid rgb(255 255 255 / 35%);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: analysis-spin 0.6s linear infinite;
+}
+
+@keyframes analysis-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .open-file-btn:disabled,

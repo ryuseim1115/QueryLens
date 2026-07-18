@@ -1,5 +1,5 @@
 import sqlglot
-from infrastructure.in_memory.get_in_memory_table_names import get_in_memory_table_names
+from infrastructure.duckdb.get_table_names import get_table_names
 from sqlglot import errors, exp, parse_one
 
 
@@ -31,8 +31,8 @@ class QueryValidator:
         if not query_tables:
             return
 
-        memory_table_names = get_in_memory_table_names(self.user_id)
-        missing = query_tables - memory_table_names
+        table_names = get_table_names(self.user_id)
+        missing = query_tables - table_names
         if missing:
             raise ValueError(
                 "次のテーブルに対応するファイルがアップロードされていません: "

@@ -1,4 +1,4 @@
-import { getFileMemoryStatus } from '../../../../api/GetFileMemoryStatus.js';
+import { getFileTableStatus } from '../../../../api/GetFileTableStatus.js';
 import { clearFileList, appendFileRow } from './FileListView.js';
 import { createTables } from './CreateTables.js';
 
@@ -7,8 +7,8 @@ const loadingStatus = document.querySelector('.loading-status');
 export async function reloadFileList() {
   loadingStatus.textContent = '読み込み中...';
 
-  // ストレージ上の全ファイルを、インメモリに存在するかどうかを取得する
-  const response = await getFileMemoryStatus();
+  // ディスク上の全ファイルを、テーブル化済みかどうかを取得する
+  const response = await getFileTableStatus();
   if (!response.ok) {
     loadingStatus.textContent = '';
     return;
@@ -16,12 +16,12 @@ export async function reloadFileList() {
 
   const fileData = await response.json();
 
-  // 一覧を空にしてから、既にインメモリにあるファイルをそのまま表示する
+  // 一覧を空にしてから、既にテーブル化済みのファイルをそのまま表示する
   clearFileList();
-  fileData.in_memory_files.forEach((fileName) => appendFileRow(fileName));
+  fileData.tabled_files.forEach((fileName) => appendFileRow(fileName));
 
-  // インメモリにまだないファイルは、1件ずつインメモリにテーブルを作成しながら一覧に追加していく
-  await createTables(fileData.not_in_memory_files);
+  // 未テーブル化のファイルは、1件ずつテーブルを作成しながら一覧に追加していく
+  await createTables(fileData.untabled_files);
 
   loadingStatus.textContent = '';
 }

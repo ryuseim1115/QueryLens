@@ -4,3 +4,6 @@ node_modules/
 .env
 .vscode/
 tmp/
+*.duckdb
+*.duckdb.wal
+backend/data/
