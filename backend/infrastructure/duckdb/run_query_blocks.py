@@ -7,7 +7,8 @@ def run_query_blocks(
     user_id: int,
     query_blocks: QueryBlockAnalyzeResultList,
 ) -> QueryBlockAnalyzeResultList:
-    # cursor()でリクエストごとの専用セッションを作り、他リクエストのクエリ実行と競合しないようにする
+    # cursor()でリクエストごとの専用セッションを作り、
+    # 他リクエストのクエリ実行と競合しないようにする
     with get_connection(user_id).cursor() as connection:
         for query_block in query_blocks:
             try:
