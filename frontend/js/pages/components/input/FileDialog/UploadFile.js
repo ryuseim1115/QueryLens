@@ -38,12 +38,12 @@ function resetFileSelection() {
 }
 
 // ファイル選択ボタンを押下したら、ネイティブのファイル選択ダイアログを表示する
-selectFileBtn.addEventListener('click', () => {
+export function handleSelectFileClick() {
   nativeFileInput.click();
-});
+}
 
 // ネイティブのファイル選択ダイアログでファイルが選択されたら、ファイル名表示・アップロードボタンの有効/無効・重複チェックを更新する
-nativeFileInput.addEventListener('change', () => {
+export function handleFileInputChange() {
   const files = Array.from(nativeFileInput.files);
   fileNameLabel.textContent = describeSelectedFiles(files);
   uploadBtn.disabled = files.length === 0;
@@ -53,9 +53,9 @@ nativeFileInput.addEventListener('change', () => {
     duplicateNames.length > 0 ? describeDuplicateFileNames(duplicateNames) : '',
     duplicateNames.length > 0,
   );
-});
+}
 
-uploadBtn.addEventListener('click', async () => {
+export async function handleUploadClick() {
   const files = Array.from(nativeFileInput.files);
 
   // 処理が終わるまで、ファイル選択・アップロード・閉じるの操作をできないようにする
@@ -108,4 +108,4 @@ uploadBtn.addEventListener('click', async () => {
 
   selectFileBtn.disabled = false;
   closeFileListBtn.disabled = false;
-});
+}

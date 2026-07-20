@@ -32,3 +32,16 @@ QueryBlockAnalyzeResultList = list[QueryBlockAnalyzeResult]
 
 class RunQueryResponse(BaseModel):
     query_blocks: list[QueryBlockAnalyzeResult]
+
+
+class RunQueryBlockRequest(BaseModel):
+    model_config = ConfigDict(
+        alias_generator=to_camel,
+    )
+    database_type: str
+    query: str
+    start_index: int
+
+
+class RunQueryBlockResponse(BaseModel):
+    query_block: QueryBlockAnalyzeResult

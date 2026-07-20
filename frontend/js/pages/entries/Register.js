@@ -1,15 +1,11 @@
 import { registerUser } from '../../api/RegisterUser.js';
+import { showError, clearError } from '../../common/ErrorMessage.js';
 
 const registerBtn = document.querySelector('.register-btn');
 const errorMsg = document.querySelector('.register-error');
 
 function getRegisterInfo() {
   return Object.fromEntries(new FormData(document.querySelector('form')).entries());
-}
-
-function showError(message) {
-  errorMsg.textContent = message;
-  errorMsg.classList.add('visible');
 }
 
 function extractErrorMessage(detail) {
@@ -24,13 +20,12 @@ function extractErrorMessage(detail) {
 
 registerBtn.addEventListener('click', async () => {
   const registerInfo = getRegisterInfo();
-  errorMsg.textContent = '';
-  errorMsg.classList.remove('visible');
+  clearError(errorMsg);
 
   const response = await registerUser(registerInfo);
   if (!response.ok) {
     const error = await response.json();
-    showError(extractErrorMessage(error.detail));
+    showError(errorMsg, extractErrorMessage(error.detail));
     return;
   }
 

@@ -12,9 +12,10 @@ from api.routers import (
     result,
     result_view,
     run_query,
+    run_query_block,
     upload_csv,
 )
-from config import SESSION_SECRET_KEY, TEMPLATES_DIR
+from config import SESSION_MAX_AGE_SECONDS, SESSION_SECRET_KEY, TEMPLATES_DIR
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -24,7 +25,9 @@ from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
 
-app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET_KEY)
+app.add_middleware(
+    SessionMiddleware, secret_key=SESSION_SECRET_KEY, max_age=SESSION_MAX_AGE_SECONDS
+)
 
 
 # require_login_page(未ログインのページアクセス)が投げるNotLoggedInErrorを
@@ -54,6 +57,7 @@ app.include_router(input.router)
 app.include_router(result.router)
 app.include_router(result_view.router)
 app.include_router(run_query.router)
+app.include_router(run_query_block.router)
 app.include_router(upload_csv.router)
 app.include_router(create_table.router)
 app.include_router(drop_table.router)

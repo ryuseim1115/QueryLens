@@ -111,11 +111,9 @@ body {
     border-color 0.15s;
 }
 
-.table-item:hover,
-.table-item:focus-visible {
+.table-item:hover {
   background: var(--surface-hover);
   border-color: var(--accent);
-  outline: none;
 }
 
 .query-block-group {

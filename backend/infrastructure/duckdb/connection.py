@@ -8,18 +8,16 @@ _connections: dict[int, duckdb.DuckDBPyconnection] = {}
 _init_lock = threading.Lock()
 
 
-# DuckDBのconnectionオブジェクト自体はスレッドセーフではないため、
-# 複数リクエストから同時にSQLを実行させると内部のpending query stateが
-# 壊れてしまう(Issue #81)。呼び出し側は必ずこの関数が返すconnectionを
-# 直接使わず、connection.cursor()で取得した専用セッション経由で
-# SQLを実行すること。
-#
 # ユーザーごとに別々のDuckDBファイルを持たせることで、あるユーザーの
 # テーブル作成が他ユーザーのクエリ実行と同じファイルを取り合わないようにしている。
 def get_connection(user_id: int) -> duckdb.DuckDBPyconnection:
     connection = _connections.get(user_id)
     if connection is None:
+        # 既存のユーザーの接続取得ではロックを取らずに済むよう、
+        # 先にロックなしで確認してから初期化用のロックに入る。
         with _init_lock:
+            # ロック待ちの間に他スレッドが作成済みの場合があるため再確認し、
+            # 同じユーザーの接続が二重に作られてリークするのを防ぐ。
             connection = _connections.get(user_id)
             if connection is None:
                 os.makedirs(DUCKDB_DIR, exist_ok=True)

@@ -1,4 +1,4 @@
-import { findParentAliasEl } from '../../../../common/QueryBlockDomFinder.js';
+import { findParentAliasEl } from '../../../common/QueryBlockDomFinder.js';
 
 export function displayLines(queryBlocks) {
   const tablesEl = document.querySelector('.tables-list');
