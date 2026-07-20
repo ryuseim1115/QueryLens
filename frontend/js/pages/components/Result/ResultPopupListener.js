@@ -1,4 +1,4 @@
-import { findParentAliasEl } from '../../../../common/QueryBlockDomFinder.js';
+import { findParentAliasEl } from '../../../common/QueryBlockDomFinder.js';
 
 const RESULT_WINDOW_NAME = 'queryLensResult';
 const POPUP_WIDTH = 960;
@@ -13,7 +13,7 @@ window.addEventListener('message', (event) => {
   );
 });
 
-export function displayQueryResult(queryBlocks) {
+export function addTableResultPopupListeners(queryBlocks) {
   queryBlocks.forEach((queryBlock) => {
     const parentAlias = findParentAliasEl(queryBlock);
     if (!parentAlias) return;

@@ -1,1 +1,1 @@
-import '../components/Result/DisplayResultView.js';
+import '../components/ResultView/ResultViewPageController.js';
