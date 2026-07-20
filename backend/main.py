@@ -12,6 +12,7 @@ from api.routers import (
     result,
     result_view,
     run_query,
+    run_query_block,
     upload_csv,
 )
 from config import SESSION_MAX_AGE_SECONDS, SESSION_SECRET_KEY, TEMPLATES_DIR
@@ -56,6 +57,7 @@ app.include_router(input.router)
 app.include_router(result.router)
 app.include_router(result_view.router)
 app.include_router(run_query.router)
+app.include_router(run_query_block.router)
 app.include_router(upload_csv.router)
 app.include_router(create_table.router)
 app.include_router(drop_table.router)
