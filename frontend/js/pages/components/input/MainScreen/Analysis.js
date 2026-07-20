@@ -1,4 +1,5 @@
-import { runQuery } from '../../../api/RunQuery.js';
+import { runQuery } from '../../../../api/RunQuery.js';
+import { showError, clearError } from '../../../../common/ErrorMessage.js';
 
 const errorMsg = document.querySelector('.query-error');
 const analysisBtn = document.querySelector('.analysis-btn');
@@ -7,12 +8,6 @@ const analysisBtnLabel = analysisBtn.textContent;
 // フォームからDBタイプとクエリ文字列を取得する
 function getQueryInfo() {
   return Object.fromEntries(new FormData(document.querySelector('form')).entries());
-}
-
-// クエリエラーのメッセージを表示する
-function showError(message) {
-  errorMsg.textContent = message;
-  errorMsg.classList.add('visible');
 }
 
 // 解析中は「解析」ボタンにローディング表示を出し、全ボタンを操作できないようにする
@@ -30,7 +25,10 @@ function saveQuerySession(queryInfo) {
   try {
     sessionStorage.setItem('querySession', JSON.stringify(queryInfo));
   } catch {
-    showError('クエリの保存に失敗しました。クエリを短くして再度お試しください。');
+    showError(
+      errorMsg,
+      'クエリの保存に失敗しました。クエリを短くして再度お試しください。',
+    );
     return false;
   }
   return true;
@@ -39,15 +37,14 @@ function saveQuerySession(queryInfo) {
 // 「解析」ボタンが押されたときの処理
 export async function handleAnalysisClick() {
   const queryInfo = getQueryInfo();
-  errorMsg.textContent = '';
-  errorMsg.classList.remove('visible');
+  clearError(errorMsg);
   setLoading(true);
 
   // 入力されたクエリをサーバーに送り、構造解析・実行を依頼する（結果画面遷移前の検証を兼ねる）
   const response = await runQuery(queryInfo);
   if (!response.ok) {
     const error = await response.json();
-    showError(error.detail);
+    showError(errorMsg, error.detail);
     setLoading(false);
     return;
   }
