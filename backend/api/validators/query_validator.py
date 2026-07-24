@@ -10,8 +10,15 @@ class QueryValidator:
         self.user_id = user_id
 
     def validate(self) -> sqlglot.Expression:
+        query = self.query.strip()
+        # ブロック単体のクエリ文字列は外側に括弧が付いたまま渡されることがあり
+        # （例: "(SELECT ...)"）、そのままだとsqlglotが"subquery"型と解釈してしまい
+        # SELECT文判定に失敗するため剥がす
+        if query.startswith("(") and query.endswith(")"):
+            query = query[1:-1].strip()
+
         try:
-            expression = parse_one(self.query, read=self.database_type)
+            expression = parse_one(query, read=self.database_type)
         except errors.ParseError as e:
             raise ValueError(f"SQL構文が正しくありません: {str(e)}")
 

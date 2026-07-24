@@ -22,23 +22,31 @@ const stored =
 if (!stored) {
   location.href = '/input';
 } else {
-  // セッションにはクエリ情報のみ保存されているため、該当ブロックの実行結果はここで取得する
-  const queryInfo = JSON.parse(stored);
+  // セッションには解析結果（クエリブロック構造）が含まれているため、
+  // 該当ブロックはここで特定する（サーバー側での再解析は不要）
+  const { queryInfo, queryBlocks } = JSON.parse(stored);
   const startIndex = Number(new URLSearchParams(location.search).get('start_index'));
+  const queryBlock = queryBlocks.find((qb) => qb.start_index === startIndex);
 
-  const response = await runQueryBlock(queryInfo, startIndex);
-  if (!response.ok) {
+  if (!queryBlock) {
     location.href = '/input';
   } else {
-    const data = await response.json();
-    const queryBlock = data.query_block;
+    const response = await runQueryBlock({
+      databaseType: queryInfo.databaseType,
+      query: queryBlock.query,
+    });
+    if (!response.ok) {
+      location.href = '/input';
+    } else {
+      const { records } = await response.json();
 
-    if (queryBlock.parent_alias) {
-      document.title = `QueryLens - 実行結果: ${queryBlock.parent_alias}`;
-      document.querySelector('.panel-header').textContent =
-        `実行結果: ${queryBlock.parent_alias}`;
+      if (queryBlock.parent_alias) {
+        document.title = `QueryLens - 実行結果: ${queryBlock.parent_alias}`;
+        document.querySelector('.panel-header').textContent =
+          `実行結果: ${queryBlock.parent_alias}`;
+      }
+
+      renderResultTable(records);
     }
-
-    renderResultTable(queryBlock.result);
   }
 }
