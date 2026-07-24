@@ -19,11 +19,12 @@ function setLoading(isLoading) {
   analysisBtn.textContent = isLoading ? '解析中' : analysisBtnLabel;
 }
 
-// 実行したクエリ情報をセッションストレージに保存する（結果画面で再実行するため）。
-// 解析結果そのものは保存しない（レコード件数次第でストレージ容量を超えるため）。
-function saveQuerySession(queryInfo) {
+// クエリ情報と解析結果（クエリブロック構造）をセッションストレージに保存する
+// （結果画面で使うため）。この段階の各ブロックのresultは常に[]なので、
+// レコード件数によるストレージ容量超過の心配はない。
+function saveQuerySession(queryInfo, queryBlocks) {
   try {
-    sessionStorage.setItem('querySession', JSON.stringify(queryInfo));
+    sessionStorage.setItem('querySession', JSON.stringify({ queryInfo, queryBlocks }));
   } catch {
     showError(
       errorMsg,
@@ -40,7 +41,7 @@ export async function handleAnalysisClick() {
   clearError(errorMsg);
   setLoading(true);
 
-  // 入力されたクエリをサーバーに送り、構造解析・実行を依頼する（結果画面遷移前の検証を兼ねる）
+  // 入力されたクエリをサーバーに送り、構造解析を依頼する
   const response = await runQuery(queryInfo);
   if (!response.ok) {
     const error = await response.json();
@@ -49,8 +50,9 @@ export async function handleAnalysisClick() {
     return;
   }
 
-  // 成功したら、クエリ情報をセッションに保存して結果画面へ遷移する
-  if (!saveQuerySession(queryInfo)) {
+  // 成功したら、クエリ情報と解析結果をセッションに保存して結果画面へ遷移する
+  const { query_blocks } = await response.json();
+  if (!saveQuerySession(queryInfo, query_blocks)) {
     setLoading(false);
     return;
   }

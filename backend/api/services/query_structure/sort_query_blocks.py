@@ -1,12 +1,7 @@
 from api.schemas.run_query import QueryBlockAnalyzeResultList
 
 
-class SortQueryBlocksByDepthDesc:
-    def __init__(self, query_blocks: QueryBlockAnalyzeResultList):
-        self.query_blocks = query_blocks
-
-    def execute(self) -> QueryBlockAnalyzeResultList:
-        sorted_query_blocks = sorted(
-            self.query_blocks, key=lambda s: s.depth, reverse=True
-        )
-        return sorted_query_blocks
+def sort_query_blocks_by_depth_desc(
+    query_blocks: QueryBlockAnalyzeResultList,
+) -> QueryBlockAnalyzeResultList:
+    return sorted(query_blocks, key=lambda qb: qb.depth, reverse=True)

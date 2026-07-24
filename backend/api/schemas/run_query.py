@@ -40,8 +40,7 @@ class RunQueryBlockRequest(BaseModel):
     )
     database_type: str
     query: str
-    start_index: int
 
 
 class RunQueryBlockResponse(BaseModel):
-    query_block: QueryBlockAnalyzeResult
+    records: list[dict[str, Any]]
