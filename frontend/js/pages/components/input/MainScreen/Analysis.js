@@ -24,10 +24,7 @@ function setLoading(isLoading) {
 // レコード件数によるストレージ容量超過の心配はない。
 function saveQuerySession(queryInfo, queryBlocks) {
   try {
-    sessionStorage.setItem(
-      'querySession',
-      JSON.stringify({ queryInfo, queryBlocks }),
-    );
+    sessionStorage.setItem('querySession', JSON.stringify({ queryInfo, queryBlocks }));
   } catch {
     showError(
       errorMsg,
