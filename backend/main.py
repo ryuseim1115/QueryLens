@@ -6,6 +6,7 @@ from api.routers import (
     drop_table,
     get_file_table_status,
     input,
+    landing,
     login,
     purge_file,
     register,
@@ -47,10 +48,13 @@ def handle_value_error(request: Request, exception: ValueError):
 models.Base.metadata.create_all(bind=engine)
 js_path = os.path.join(TEMPLATES_DIR, "js")
 css_path = os.path.join(TEMPLATES_DIR, "css")
+images_path = os.path.join(TEMPLATES_DIR, "images")
 
 app.mount("/js", StaticFiles(directory=js_path), name="js")
 app.mount("/css", StaticFiles(directory=css_path), name="css")
+app.mount("/images", StaticFiles(directory=images_path), name="images")
 
+app.include_router(landing.router)
 app.include_router(register.router)
 app.include_router(login.router)
 app.include_router(input.router)
