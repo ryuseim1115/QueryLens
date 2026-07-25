@@ -52,3 +52,4 @@ class RunQueryBlockRequest(BaseModel):
 
 class RunQueryBlockResponse(BaseModel):
     records: list[dict[str, Any]]
+    truncated: bool

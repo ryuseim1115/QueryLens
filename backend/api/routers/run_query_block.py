@@ -14,7 +14,7 @@ router = APIRouter()
 def run_query_block(
     body: RunQueryBlockRequest, user_id: int = Depends(require_login_api)
 ):
-    records = run_query_block_service.run_query_block(
+    result = run_query_block_service.run_query_block(
         user_id, body.database_type, body.query
     )
-    return RunQueryBlockResponse(records=records)
+    return RunQueryBlockResponse(records=result.records, truncated=result.truncated)
