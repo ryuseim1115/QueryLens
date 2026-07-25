@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QueryLens - 複雑なSQLを、誰でも読み解けるように</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/landing.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">Query<span>Lens</span></div>
+      <nav class="header-nav">
+        <a href="/login" class="header-login-link">ログイン</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-text">
+          <h1>複雑なSQLを、分解して見える化する</h1>
+          <p class="hero-lead">
+            JOINやサブクエリが絡み合うSQLを分解し、各フェーズの中間テーブルをプレビュー表示します。<br />
+            それにより、指導員と若手が同じ画面を見ながら、認識をすり合わせられます。
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a href="/register" class="cta-btn">無料で試す</a>
+          <a href="/login" class="cta-btn-secondary">ログイン</a>
+        </div>
+      </section>
+
+      <section class="problem">
+        <h2>こんな悩みありませんか？</h2>
+        <div class="problem-grid">
+          <div class="problem-card">
+            <div class="problem-icon-group">
+              <img
+                src="/images/messy-code-document.png"
+                alt="複雑なSQLのドキュメント"
+                class="problem-illustration"
+              />
+              <img
+                src="/images/thinking-person.png"
+                alt="複雑なSQLに困っている人"
+                class="problem-illustration"
+              />
+            </div>
+            <p>複数テーブルが絡むJOINが、どの順番で結合されているか一目でわからない</p>
+          </div>
+          <div class="problem-card">
+            <img
+              src="/images/mismatched-thoughts.png"
+              alt="指導員と若手が違うことを考えている"
+              class="problem-illustration problem-illustration-lg"
+            />
+            <p>複雑なSQLを、指導員と若手がお互いの想像に頼りながら会話するしかない</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="how-to-use">
+        <h2>使い方</h2>
+        <ol class="step-list">
+          <li class="step-item">
+            <span class="step-number">1</span>
+            <div class="step-body">
+              <h3>CSVをアップロード</h3>
+              <p>ローカルのCSVファイルをアップロードし、テーブルとして取り込みます。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <span class="step-number">2</span>
+            <div class="step-body">
+              <h3>クエリを入力</h3>
+              <p>JOINやサブクエリを含むSQLクエリを入力します。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <span class="step-number">3</span>
+            <div class="step-body">
+              <h3>解析を実行</h3>
+              <p>「解析」ボタンを押すと、クエリがブロック単位に分解されます。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <span class="step-number">4</span>
+            <div class="step-body">
+              <h3>テーブルの関係を確認</h3>
+              <p>分解されたテーブル同士のリレーションを図で確認できます。</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <span class="step-number">5</span>
+            <div class="step-body">
+              <h3>中間結果をプレビュー</h3>
+              <p>
+                気になるフェーズ・サブクエリを選択し、その時点の抽出結果を確認できます。
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="cta-final">
+        <h2>今すぐ、SQLを分解してみましょう</h2>
+        <a href="/register" class="cta-btn">無料で試す</a>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a
+          href="https://github.com/ryuseim1115/QueryLens"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>
