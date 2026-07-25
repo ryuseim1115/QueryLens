@@ -12,14 +12,11 @@ function toLocalRanges(highlightRanges, lineOffset) {
     .filter(
       (range) =>
         range.end_index > lineOffset.start_index &&
-        range.start_index < lineOffset.end_index
+        range.start_index < lineOffset.end_index,
     )
     .map((range) => ({
       start: Math.max(0, range.start_index - lineOffset.start_index),
-      end: Math.min(
-        lineOffset.text.length,
-        range.end_index - lineOffset.start_index
-      ),
+      end: Math.min(lineOffset.text.length, range.end_index - lineOffset.start_index),
     }))
     .sort((a, b) => a.start - b.start);
 
