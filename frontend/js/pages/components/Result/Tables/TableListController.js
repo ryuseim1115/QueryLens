@@ -1,5 +1,6 @@
 import { createDepthGroup } from './createDepthGroup.js';
 import { createQueryBlockGroup } from './createQueryBlockGroup.js';
+import { createResultItem } from './createResultItem.js';
 
 export function displayTables(queryBlocks) {
   if (!queryBlocks.length) return;
@@ -25,4 +26,13 @@ export function displayTables(queryBlocks) {
 
     depthGroupEl.appendChild(createQueryBlockGroup(queryBlock));
   });
+
+  // queryBlocksは深さの降順なので、末尾要素が必ずdepth0（クエリ全体）になる
+  const rootQueryBlock = queryBlocks[queryBlocks.length - 1];
+  const resultDepthGroupEl = createDepthGroup(currentDepth - 1);
+  const resultGroupEl = document.createElement('div');
+  resultGroupEl.className = 'query-block-group';
+  resultGroupEl.appendChild(createResultItem(rootQueryBlock));
+  resultDepthGroupEl.appendChild(resultGroupEl);
+  tablesEl.appendChild(resultDepthGroupEl);
 }

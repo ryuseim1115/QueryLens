@@ -5,7 +5,8 @@ from api.services.query_structure.table_name_extractor import (
 
 
 def _extract(query: str):
-    return extract_table_names_with_alias(parse_query_block(query))
+    expression, offset = parse_query_block(query)
+    return extract_table_names_with_alias(expression, offset)
 
 
 def test_single_table_no_alias():
@@ -39,8 +40,8 @@ def test_left_join_with_aliases():
         "SELECT u.name, o.amount FROM users AS u "
         "LEFT JOIN orders AS o ON u.id = o.user_id"
     )
-    assert any(t == ("users", "u") for t in result)
-    assert any(t == ("orders", "o") for t in result)
+    assert any(t[:2] == ("users", "u") for t in result)
+    assert any(t[:2] == ("orders", "o") for t in result)
 
 
 def test_subquery_in_from_has_none_name():
@@ -54,3 +55,64 @@ def test_values_clause_in_from_is_excluded():
     # FROM句がexp.Table/exp.Subqueryのどちらでもないケース(VALUES句)
     result = _extract("SELECT * FROM (VALUES (1,2)) AS t(a,b)")
     assert result == []
+
+
+def test_table_position_points_to_table_name_only():
+    query = "SELECT * FROM small_products"
+    result = _extract(query)
+    start, end = result[0][2]
+    assert query[start:end] == "small_products"
+
+
+def test_aliased_table_position_points_to_name_not_alias():
+    query = "SELECT * FROM users AS u"
+    result = _extract(query)
+    start, end = result[0][2]
+    assert query[start:end] == "users"
+
+
+def test_subquery_position_points_to_alias():
+    query = "SELECT * FROM (SELECT id FROM users) AS sub"
+    result = _extract(query)
+    subquery_entry = next(t for t in result if t[1] == "sub")
+    start, end = subquery_entry[2]
+    assert query[start:end] == "sub"
+
+
+def test_select_list_scalar_subquery_is_extracted():
+    query = "SELECT u.id, (SELECT COUNT(*) FROM orders) AS order_count FROM users AS u"
+    result = _extract(query)
+    assert any(t[:2] == (None, "order_count") for t in result)
+
+
+def test_select_list_scalar_subquery_position_points_to_alias():
+    query = "SELECT (SELECT COUNT(*) FROM orders) AS order_count FROM users"
+    result = _extract(query)
+    entry = next(t for t in result if t[1] == "order_count")
+    start, end = entry[2]
+    assert query[start:end] == "order_count"
+
+
+def test_select_list_multiple_scalar_subqueries_are_extracted():
+    query = (
+        "SELECT "
+        "(SELECT COUNT(*) FROM orders AS o WHERE o.user_id = u.id) AS order_count, "
+        "(SELECT COALESCE(SUM(o.amount), 0) FROM orders AS o WHERE o.user_id = u.id) "
+        "AS total_amount "
+        "FROM users AS u"
+    )
+    result = _extract(query)
+    aliases = [t[1] for t in result]
+    assert "order_count" in aliases
+    assert "total_amount" in aliases
+
+
+def test_select_list_plain_column_alias_is_not_extracted():
+    result = _extract("SELECT u.id AS user_id FROM users AS u")
+    assert all(t[1] != "user_id" for t in result)
+
+
+def test_select_list_subquery_buried_in_expression_is_not_extracted():
+    # サブクエリが式の一部に埋もれているケース（対象外の既知の制約）
+    result = _extract("SELECT (SELECT COUNT(*) FROM orders) + 1 AS total FROM users")
+    assert all(t[1] != "total" for t in result)
