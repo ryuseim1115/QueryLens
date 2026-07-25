@@ -47,8 +47,8 @@ if (!stored) {
       const body = await response.json().catch(() => null);
       renderResultError(body?.detail ?? 'クエリの実行に失敗しました');
     } else {
-      const { records } = await response.json();
-      renderResultTable(records);
+      const { records, truncated } = await response.json();
+      renderResultTable(records, truncated);
     }
   }
 }

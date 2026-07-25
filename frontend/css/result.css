@@ -159,6 +159,18 @@ body {
   display: block;
 }
 
+.result-truncated {
+  font-size: 0.78rem;
+  color: var(--muted);
+  padding: 0.4rem 1rem 0;
+  margin: 0;
+  display: none;
+}
+
+.result-truncated.visible {
+  display: block;
+}
+
 .result-panel {
   flex: 1;
   display: flex;
