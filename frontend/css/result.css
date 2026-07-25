@@ -123,6 +123,11 @@ body {
   border-color: var(--accent);
 }
 
+.result-item {
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
 .query-block-group {
   margin-bottom: 0.5rem;
 }
@@ -136,6 +141,21 @@ body {
 }
 
 .no-result.visible {
+  display: block;
+}
+
+.result-error {
+  font-size: 0.82rem;
+  color: var(--error-tx);
+  background: var(--error-bg);
+  border: 1px solid var(--error-bd);
+  border-radius: 5px;
+  padding: 0.4rem 0.75rem;
+  margin: 0.5rem 1rem;
+  display: none;
+}
+
+.result-error.visible {
   display: block;
 }
 

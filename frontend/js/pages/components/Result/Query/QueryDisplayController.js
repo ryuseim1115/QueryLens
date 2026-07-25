@@ -9,6 +9,7 @@ export function displayQuery(query) {
   renderQuery(_queryLineOffsets, null);
 }
 
-export function highlightQuery(start_index, end_index) {
-  renderQuery(_queryLineOffsets, { start_index, end_index });
+// ranges: [{ start_index, end_index }, ...] を同時にハイライトする
+export function highlightQuery(ranges) {
+  renderQuery(_queryLineOffsets, ranges);
 }

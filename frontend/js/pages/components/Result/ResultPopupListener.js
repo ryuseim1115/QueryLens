@@ -19,6 +19,11 @@ export function addTableResultPopupListeners(queryBlocks) {
     if (!parentAlias) return;
     parentAlias.addEventListener('click', () => openResultPopup(queryBlock));
   });
+
+  // 「結果」ボックスのクリックでは、クエリ全体（depth0）の実行結果を表示する
+  const resultEl = document.querySelector('.result-item');
+  const rootQueryBlock = queryBlocks[queryBlocks.length - 1];
+  resultEl.addEventListener('click', () => openResultPopup(rootQueryBlock));
 }
 
 function openResultPopup(queryBlock) {

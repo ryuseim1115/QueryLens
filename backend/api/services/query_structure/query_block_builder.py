@@ -18,7 +18,7 @@ class QueryBlock:
     end_index: int
     query: str
     depth: int
-    tables_name_alias: list[tuple[str | None, str | None]]
+    tables_name_alias: list[tuple[str | None, str | None, tuple[int, int] | None]]
     parent_alias: str | None = None
 
 
@@ -56,20 +56,26 @@ def build_query_blocks(query: str) -> list[QueryBlock]:
     # -> ["SELECT * FROM a JOIN (SELECT * FROM b) c", "(SELECT * FROM b)"]
     block_queries = [query[start:end] for start, end in ranges]
 
-    # expressions は、block_queries を sqlglot でパースした AST
-    # (exp.Expression)のリスト
+    # expressions_with_offsets は、block_queries を sqlglot でパースした AST
+    # (exp.Expression)と、パース時に剥がした空白/括弧の分のoffsetのペアのリスト
     # 例: "SELECT id FROM users"
-    # -> Select(expressions=[Column(...)], from_=From(this=Table(...)))
-    expressions = [parse_query_block(block_query) for block_query in block_queries]
+    # -> (Select(expressions=[Column(...)], from_=From(this=Table(...))), 0)
+    expressions_with_offsets = [
+        parse_query_block(block_query) for block_query in block_queries
+    ]
 
-    # 各ブロックのASTから、直下のFROM/JOINが参照するテーブル名・エイリアスを抽出
+    # 各ブロックのASTから、直下のFROM/JOINが参照するテーブル名・エイリアスと、
+    # それらが元クエリ文字列上で実際に書かれている位置を抽出する
+    # （offsetにブロック自身の開始位置を加算し、ASTノードの相対位置を
+    #  絶対位置に変換する）
     # 例: ["SELECT * FROM a JOIN (SELECT * FROM b) c", "(SELECT * FROM b)"]
-    # -> [[("a", None), (None, "c")], [("b", None)]]
+    # -> [[("a", None, (14, 15)), (None, "c", (39, 40))], [("b", None, (36, 37))]]
     #    1つ目のブロックでは実テーブル"a"（エイリアスなし）と、
     #    "c"というエイリアスの付いたサブクエリ
     #    （実テーブルではないため名前はNone）を参照している
     query_block_tables_name_alias = [
-        extract_table_names_with_alias(expression) for expression in expressions
+        extract_table_names_with_alias(expression, start + offset)
+        for (expression, offset), (start, _) in zip(expressions_with_offsets, ranges)
     ]
 
     # ここまでで求めた範囲・深さ・参照テーブルをブロック単位でQueryBlockにまとめる

@@ -1,5 +1,5 @@
 import { runQueryBlock } from '../../../api/RunQueryBlock.js';
-import { renderResultTable } from './RenderResultTable.js';
+import { renderResultError, renderResultTable } from './RenderResultTable.js';
 
 function requestQuerySessionFromOpener() {
   if (!window.opener) return Promise.resolve(null);
@@ -35,17 +35,19 @@ if (!stored) {
       databaseType: queryInfo.databaseType,
       query: queryBlock.query,
     });
+
+    const resultLabel =
+      queryBlock.parent_alias || (queryBlock.depth === 0 ? '結果' : null);
+    if (resultLabel) {
+      document.title = `QueryLens - 実行結果: ${resultLabel}`;
+      document.querySelector('.panel-header').textContent = `実行結果: ${resultLabel}`;
+    }
+
     if (!response.ok) {
-      location.href = '/input';
+      const body = await response.json().catch(() => null);
+      renderResultError(body?.detail ?? 'クエリの実行に失敗しました');
     } else {
       const { records } = await response.json();
-
-      if (queryBlock.parent_alias) {
-        document.title = `QueryLens - 実行結果: ${queryBlock.parent_alias}`;
-        document.querySelector('.panel-header').textContent =
-          `実行結果: ${queryBlock.parent_alias}`;
-      }
-
       renderResultTable(records);
     }
   }

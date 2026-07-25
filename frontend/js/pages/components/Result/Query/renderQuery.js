@@ -1,7 +1,7 @@
 import { buildLineContentHtml } from './buildLineContentHtml.js';
 
-// 行番号つきでクエリを描画する（highlightRangeがあれば該当箇所を<mark>でハイライトする）
-export function renderQuery(lineOffsets, highlightRange) {
+// 行番号つきでクエリを描画する（highlightRangesがあれば該当箇所を<mark>でハイライトする）
+export function renderQuery(lineOffsets, highlightRanges) {
   const queryDisplayEl = document.querySelector('.query-display');
   queryDisplayEl.innerHTML = '';
 
@@ -15,7 +15,7 @@ export function renderQuery(lineOffsets, highlightRange) {
 
     const contentEl = document.createElement('span');
     contentEl.className = 'query-line-content';
-    contentEl.innerHTML = buildLineContentHtml(lineOffset, highlightRange);
+    contentEl.innerHTML = buildLineContentHtml(lineOffset, highlightRanges);
 
     lineEl.appendChild(numberEl);
     lineEl.appendChild(contentEl);
