@@ -1,5 +1,5 @@
 import { runQueryBlock } from '../../../api/RunQueryBlock.js';
-import { renderResultTable } from './RenderResultTable.js';
+import { renderResultError, renderResultTable } from './RenderResultTable.js';
 
 function requestQuerySessionFromOpener() {
   if (!window.opener) return Promise.resolve(null);
@@ -22,23 +22,33 @@ const stored =
 if (!stored) {
   location.href = '/input';
 } else {
-  // セッションにはクエリ情報のみ保存されているため、該当ブロックの実行結果はここで取得する
-  const queryInfo = JSON.parse(stored);
+  // セッションには解析結果（クエリブロック構造）が含まれているため、
+  // 該当ブロックはここで特定する（サーバー側での再解析は不要）
+  const { queryInfo, queryBlocks } = JSON.parse(stored);
   const startIndex = Number(new URLSearchParams(location.search).get('start_index'));
+  const queryBlock = queryBlocks.find((qb) => qb.start_index === startIndex);
 
-  const response = await runQueryBlock(queryInfo, startIndex);
-  if (!response.ok) {
+  if (!queryBlock) {
     location.href = '/input';
   } else {
-    const data = await response.json();
-    const queryBlock = data.query_block;
+    const response = await runQueryBlock({
+      databaseType: queryInfo.databaseType,
+      query: queryBlock.query,
+    });
 
-    if (queryBlock.parent_alias) {
-      document.title = `QueryLens - 実行結果: ${queryBlock.parent_alias}`;
-      document.querySelector('.panel-header').textContent =
-        `実行結果: ${queryBlock.parent_alias}`;
+    const resultLabel =
+      queryBlock.parent_alias || (queryBlock.depth === 0 ? '結果' : null);
+    if (resultLabel) {
+      document.title = `QueryLens - 実行結果: ${resultLabel}`;
+      document.querySelector('.panel-header').textContent = `実行結果: ${resultLabel}`;
     }
 
-    renderResultTable(queryBlock.result);
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      renderResultError(body?.detail ?? 'クエリの実行に失敗しました');
+    } else {
+      const { records, truncated } = await response.json();
+      renderResultTable(records, truncated);
+    }
   }
 }

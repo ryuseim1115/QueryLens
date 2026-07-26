@@ -13,8 +13,16 @@ class QueryInfo(BaseModel):
 
 
 class TableInfo(BaseModel):
-    name: str | None = None
+    table_name: str | None = None
     alias: str | None = None
+    # このテーブル名/エイリアスが元クエリ文字列上に実際に書かれている位置
+    # （テーブル名のみをハイライトする用途）
+    start_index: int | None = None
+    end_index: int | None = None
+    # 実テーブルではなく別のクエリブロック（CTE/サブクエリ）を指している場合の、
+    # 参照先ブロック自体の位置
+    referenced_block_start_index: int | None = None
+    referenced_block_end_index: int | None = None
 
 
 class QueryBlockAnalyzeResult(BaseModel):
@@ -40,8 +48,8 @@ class RunQueryBlockRequest(BaseModel):
     )
     database_type: str
     query: str
-    start_index: int
 
 
 class RunQueryBlockResponse(BaseModel):
-    query_block: QueryBlockAnalyzeResult
+    records: list[dict[str, Any]]
+    truncated: bool

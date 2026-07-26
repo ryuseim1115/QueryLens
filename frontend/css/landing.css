@@ -1,0 +1,241 @@
+body {
+  min-height: 100vh;
+}
+
+header {
+  justify-content: space-between;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.header-login-link {
+  color: var(--muted-light);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.15s;
+}
+
+.header-login-link:hover {
+  color: var(--text);
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section {
+  width: 100%;
+  max-width: 1100px;
+  padding: 4rem 1.5rem;
+}
+
+.hero {
+  text-align: center;
+  padding-top: 5rem;
+}
+
+.hero-text {
+  display: inline-block;
+  text-align: left;
+}
+
+.hero h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.hero-lead {
+  margin-top: 1.5rem;
+  color: var(--muted-light);
+  font-size: 0.95rem;
+  line-height: 1.9;
+}
+
+.hero-actions {
+  margin-top: 2.25rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cta-btn,
+.cta-btn-secondary {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.7rem 1.75rem;
+  border-radius: 6px;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.cta-btn {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.cta-btn:hover {
+  background: var(--primary-hv);
+}
+
+.cta-btn-secondary {
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.cta-btn-secondary:hover {
+  border-color: var(--accent);
+}
+
+.problem,
+.how-to-use {
+  border-top: 1px solid var(--border);
+}
+
+.problem h2,
+.how-to-use h2 {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2.5rem;
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.problem-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.problem-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+  margin: 0 auto 0.8rem;
+}
+
+.problem-icon-group {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.5rem;
+  min-height: 80px;
+  margin-bottom: 0.8rem;
+}
+
+.problem-illustration {
+  display: block;
+  height: 54px;
+  width: auto;
+  margin: 0 auto 0.8rem;
+}
+
+.problem-icon-group .problem-illustration {
+  margin: 0;
+}
+
+.problem-illustration-lg {
+  height: 80px;
+}
+
+.problem-card p {
+  color: var(--table-body-tx);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.step-list {
+  list-style: none;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.step-item {
+  display: flex;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.step-item:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.step-number {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.step-body h3 {
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.step-body p {
+  color: var(--table-body-tx);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.cta-final {
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.cta-final h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1.75rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+footer a {
+  color: var(--muted-light);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--text);
+}
