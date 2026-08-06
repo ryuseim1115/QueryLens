@@ -86,7 +86,9 @@ def test_resolve_table_references_links_cte_reference_to_its_block():
 
     cte_block = next(r for r in result if r.parent_alias == "cte")
     outer_block = next(r for r in result if r.depth == 0)
-    cte_reference = next(t for t in outer_block.tables_name_alias if t.table_name == "cte")
+    cte_reference = next(
+        t for t in outer_block.tables_name_alias if t.table_name == "cte"
+    )
 
     assert cte_reference.referenced_block_start_index == cte_block.start_index
     assert cte_reference.referenced_block_end_index == cte_block.end_index

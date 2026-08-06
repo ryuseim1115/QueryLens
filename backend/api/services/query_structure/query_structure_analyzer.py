@@ -20,7 +20,8 @@ def analyze_query_structure(query: str) -> list[QueryBlock]:
     block_ranges_alias = find_block_ranges_with_alias(query)
     ranges = list(block_ranges_alias.keys())
 
-    # 各ブロックについて、部分文字列の切り出し・ASTパース・参照テーブル抽出を行い、QueryBlockにまとめる
+    # 各ブロックについて、部分文字列の切り出し・ASTパース・参照テーブル抽出を行い、
+    # QueryBlockにまとめる
     query_blocks = []
     for (start, end), parent_alias in block_ranges_alias.items():
         # 範囲の包含関係から、このブロックのネスト深さを算出する
@@ -29,8 +30,10 @@ def analyze_query_structure(query: str) -> list[QueryBlock]:
         # ブロックごとのクエリ文字列を切り出す例: (21, 38) -> "(SELECT * FROM b)"
         block_query = query[start:end]
 
-        # block_queryをASTパースし、直下のFROM/JOINが参照するテーブル名・エイリアスと、それらが元クエリ文字列上で実際に書かれている位置を抽出する
-        # 例: "SELECT * FROM a JOIN (SELECT * FROM b) c"　-> [("a", None, (14, 15)), (None, "c", (39, 40))]
+        # block_queryをASTパースし、直下のFROM/JOINが参照するテーブル名・エイリアスと、
+        # それらが元クエリ文字列上で実際に書かれている位置を抽出する
+        # 例: "SELECT * FROM a JOIN (SELECT * FROM b) c"
+        # -> [("a", None, (14, 15)), (None, "c", (39, 40))]
         tables_name_alias = extract_table_names_with_alias(block_query, start)
 
         query_blocks.append(
