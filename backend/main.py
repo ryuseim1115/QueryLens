@@ -2,6 +2,7 @@ import os
 
 from api.dependencies.require_login import NotLoggedInError
 from api.routers import (
+    analyze_query,
     create_table,
     drop_table,
     get_file_table_status,
@@ -12,7 +13,6 @@ from api.routers import (
     register,
     result,
     result_view,
-    run_query,
     run_query_block,
     upload_csv,
 )
@@ -60,7 +60,7 @@ app.include_router(login.router)
 app.include_router(input.router)
 app.include_router(result.router)
 app.include_router(result_view.router)
-app.include_router(run_query.router)
+app.include_router(analyze_query.router)
 app.include_router(run_query_block.router)
 app.include_router(upload_csv.router)
 app.include_router(create_table.router)

@@ -38,7 +38,7 @@ class QueryBlockAnalyzeResult(BaseModel):
 QueryBlockAnalyzeResultList = list[QueryBlockAnalyzeResult]
 
 
-class RunQueryResponse(BaseModel):
+class AnalyzeQueryResponse(BaseModel):
     query_blocks: list[QueryBlockAnalyzeResult]
 
 
