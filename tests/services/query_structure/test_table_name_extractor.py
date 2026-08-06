@@ -1,12 +1,10 @@
-from api.services.query_structure.query_parser import parse_query_block
 from api.services.query_structure.table_name_extractor import (
     extract_table_names_with_alias,
 )
 
 
 def _extract(query: str):
-    expression, offset = parse_query_block(query)
-    return extract_table_names_with_alias(expression, offset)
+    return extract_table_names_with_alias(query, 0)
 
 
 def test_single_table_no_alias():

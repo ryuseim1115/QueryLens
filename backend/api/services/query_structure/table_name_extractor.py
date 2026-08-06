@@ -1,13 +1,14 @@
+from api.services.query_structure.query_parser import parse_query_block
 from sqlglot import exp
 
 TableNameAlias = tuple[str | None, str | None, tuple[int, int] | None]
 
 
 def extract_table_names_with_alias(
-    expression: exp.Expression, base_offset: int
+    block_query: str, start: int
 ) -> list[TableNameAlias]:
-    # このexpression直下のFROM/JOIN、およびSELECT句のスカラーサブクエリだけを見る。
-    # サブクエリの中身までは再帰しない
+    # block_queryをパースしたAST上で、直下のFROM/JOIN、SELECT句のスカラーサブクエリ
+    # だけを見る。（サブクエリの中身までは再帰しない）
     # 例: "SELECT (SELECT * FROM C) D FROM A JOIN (SELECT * FROM E) B"
     #   -> [("A", None, (33, 34)), (None, "B", (56, 57)), (None, "D", (24, 25))]
     #      A: 実テーブルなのでテーブル名のみ（エイリアスなし）
@@ -16,6 +17,9 @@ def extract_table_names_with_alias(
     #      C, E: サブクエリの中身（別のクエリブロック）なので、ここでは抽出されない
     #      各タプル末尾は、そのテーブル/エイリアスが元クエリ文字列上で
     #      実際に書かれている位置（(start, end)、テーブル名のみを着色する用途）
+    expression, offset = parse_query_block(block_query)
+    base_offset = start + offset
+
     tables = []
     from_expression = expression.args.get("from_")
     if from_expression:

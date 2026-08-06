@@ -1,4 +1,4 @@
-import { runQuery } from '../../../../api/RunQuery.js';
+import { analyzeQuery } from '../../../../api/AnalyzeQuery.js';
 import { showError, clearError } from '../../../../common/ErrorMessage.js';
 
 const errorMsg = document.querySelector('.query-error');
@@ -42,7 +42,7 @@ export async function handleAnalysisClick() {
   setLoading(true);
 
   // 入力されたクエリをサーバーに送り、構造解析を依頼する
-  const response = await runQuery(queryInfo);
+  const response = await analyzeQuery(queryInfo);
   if (!response.ok) {
     const error = await response.json();
     showError(errorMsg, error.detail);

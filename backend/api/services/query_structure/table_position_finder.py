@@ -1,4 +1,4 @@
-from api.services.query_structure.query_block_builder import QueryBlock
+from api.services.query_structure.types.query_block import QueryBlock
 
 
 # tables_name_aliasの(table_name, alias)が実テーブルではなく、クエリ全体の中の
