@@ -6,7 +6,7 @@ export function createQueryBlockGroup(queryBlock) {
   queryBlockGroupEl.className = 'query-block-group';
   queryBlockGroupEl.dataset.startIndex = queryBlock.start_index;
 
-  queryBlock.tables_name_alias.forEach((table) => {
+  queryBlock.table_references.forEach((table) => {
     queryBlockGroupEl.appendChild(createTableItem(table, queryBlock));
   });
 

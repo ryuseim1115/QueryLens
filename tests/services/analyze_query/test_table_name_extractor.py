@@ -1,12 +1,10 @@
-from api.services.query_structure.query_parser import parse_query_block
-from api.services.query_structure.table_name_extractor import (
+from api.services.analyze_query.table_reference.table_name_extractor import (
     extract_table_names_with_alias,
 )
 
 
 def _extract(query: str):
-    expression, offset = parse_query_block(query)
-    return extract_table_names_with_alias(expression, offset)
+    return extract_table_names_with_alias(query)
 
 
 def test_single_table_no_alias():
@@ -116,3 +114,36 @@ def test_select_list_subquery_buried_in_expression_is_not_extracted():
     # サブクエリが式の一部に埋もれているケース（対象外の既知の制約）
     result = _extract("SELECT (SELECT COUNT(*) FROM orders) + 1 AS total FROM users")
     assert all(t[1] != "total" for t in result)
+
+
+# --- ここから、クエリ全体を1回でパースするようになったことで
+#     ブロックの深さに関わらずまとめて抽出されることを確認するテスト ---
+
+
+def test_nested_subquery_tables_are_all_extracted_in_one_call():
+    # ブロックごとに再パースしなくなったため、ネストしたサブクエリの中の
+    # テーブルも1回の呼び出しで一緒に抽出される
+    query = "SELECT * FROM (SELECT id FROM (SELECT id FROM users) AS inner) AS outer"
+    result = _extract(query)
+    names_and_aliases = [t[:2] for t in result]
+    assert ("users", None) in names_and_aliases
+    assert (None, "inner") in names_and_aliases
+    assert (None, "outer") in names_and_aliases
+
+
+def test_cte_body_tables_are_extracted():
+    query = "WITH cte AS (SELECT id FROM users) SELECT * FROM cte"
+    result = _extract(query)
+    names = [t[0] for t in result]
+    assert "users" in names
+    assert "cte" in names
+
+
+def test_scalar_subquery_body_tables_are_also_extracted():
+    # スカラーサブクエリのエイリアス自体だけでなく、その中身が参照する
+    # テーブルもまとめて抽出される（どのブロックに属するかの判定はしない）
+    query = "SELECT (SELECT COUNT(*) FROM orders) AS order_count FROM users"
+    result = _extract(query)
+    names = [t[0] for t in result]
+    assert "orders" in names
+    assert "users" in names

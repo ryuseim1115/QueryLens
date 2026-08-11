@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 
 from api.dependencies.require_login import require_login_api
 from api.schemas.file_info import FileInfo
-from api.services import purge_file_service
+from api.services.csv_table import purge_file_service
 
 router = APIRouter()
 

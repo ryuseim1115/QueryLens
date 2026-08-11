@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from api.dependencies.require_login import require_login_api
-from api.services import file_table_status_service
+from api.services.csv_table import file_table_status_service
 
 router = APIRouter()
 
