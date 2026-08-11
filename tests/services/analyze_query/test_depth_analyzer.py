@@ -1,4 +1,6 @@
-from api.services.query_structure.depth_analyzer import get_query_block_depth
+from api.services.analyze_query.query_block.depth_analyzer import (
+    get_query_block_depth,
+)
 
 
 def test_empty_ranges_is_depth_zero():

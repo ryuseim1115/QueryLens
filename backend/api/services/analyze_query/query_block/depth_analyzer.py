@@ -1,6 +1,9 @@
+from collections.abc import Iterable
+
+
 def get_query_block_depth(
     target: tuple[int, int],
-    ranges: list[tuple[int, int]],
+    ranges: Iterable[tuple[int, int]],
 ) -> int:
     # target を完全に含む range（surrounding）の数をカウントすることで
     # ネスト深さを算出する

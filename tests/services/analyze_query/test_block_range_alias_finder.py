@@ -1,4 +1,4 @@
-from api.services.query_structure.block_range_alias_finder import (
+from api.services.analyze_query.query_block.block_range_alias_finder import (
     find_block_ranges_with_alias,
 )
 

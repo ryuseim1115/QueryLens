@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 
 from api.dependencies.require_login import require_login_api
 from api.schemas.run_query import RunQueryBlockRequest, RunQueryBlockResponse
-from api.services import run_query_block_service
+from api.services.run_query_block import run_query_block_service
 
 router = APIRouter()
 
