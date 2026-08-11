@@ -20,8 +20,8 @@ function setLoading(isLoading) {
 }
 
 // クエリ情報と解析結果（クエリブロック構造）をセッションストレージに保存する
-// （結果画面で使うため）。この段階の各ブロックのresultは常に[]なので、
-// レコード件数によるストレージ容量超過の心配はない。
+// （結果画面で使うため）。この段階では各ブロックの実行結果は含まれておらず
+// 構造情報のみなので、レコード件数によるストレージ容量超過の心配はない。
 function saveQuerySession(queryInfo, queryBlocks) {
   try {
     sessionStorage.setItem('querySession', JSON.stringify({ queryInfo, queryBlocks }));

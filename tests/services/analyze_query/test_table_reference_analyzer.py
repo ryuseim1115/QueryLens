@@ -21,21 +21,14 @@ def test_analyze_table_references_converts_to_tableinfo():
     query_blocks = _analyze(query)
     result = analyze_table_references(query, query_blocks)
     outer = next(r for r in result if r.depth == 0)
-    assert all(isinstance(t, TableInfo) for t in outer.tables_name_alias)
-
-
-def test_analyze_table_references_result_is_empty():
-    query = "SELECT * FROM users"
-    query_blocks = _analyze(query)
-    result = analyze_table_references(query, query_blocks)
-    assert all(r.result == [] for r in result)
+    assert all(isinstance(t, TableInfo) for t in outer.table_references)
 
 
 def test_analyze_table_references_table_name_is_recorded():
     query = "SELECT * FROM products"
     query_blocks = _analyze(query)
     result = analyze_table_references(query, query_blocks)
-    assert any(t.table_name == "products" for t in result[0].tables_name_alias)
+    assert any(t.table_name == "products" for t in result[0].table_references)
 
 
 def test_analyze_table_references_links_cte_reference_to_its_block():
@@ -46,7 +39,7 @@ def test_analyze_table_references_links_cte_reference_to_its_block():
     cte_block = next(r for r in result if r.parent_alias == "cte")
     outer_block = next(r for r in result if r.depth == 0)
     cte_reference = next(
-        t for t in outer_block.tables_name_alias if t.table_name == "cte"
+        t for t in outer_block.table_references if t.table_name == "cte"
     )
 
     assert cte_reference.referenced_block_start_index == cte_block.start_index

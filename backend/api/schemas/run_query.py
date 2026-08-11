@@ -30,9 +30,8 @@ class QueryBlockAnalyzeResult(BaseModel):
     end_index: int
     query: str
     depth: int
-    tables_name_alias: list[TableInfo] = []
+    table_references: list[TableInfo] = []
     parent_alias: str | None = None
-    result: list[dict[str, Any]]
 
 
 QueryBlockAnalyzeResultList = list[QueryBlockAnalyzeResult]
