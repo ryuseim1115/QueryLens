@@ -1,5 +1,6 @@
 import { analyzeQuery } from '../../../../api/AnalyzeQuery.js';
 import { showError, clearError } from '../../../../common/ErrorMessage.js';
+import { sortQueryBlocksByDepthDesc } from '../../../../common/sortQueryBlocksByDepthDesc.js';
 
 const errorMsg = document.querySelector('.query-error');
 const analysisBtn = document.querySelector('.analysis-btn');
@@ -52,7 +53,8 @@ export async function handleAnalysisClick() {
 
   // 成功したら、クエリ情報と解析結果をセッションに保存して結果画面へ遷移する
   const { query_blocks } = await response.json();
-  if (!saveQuerySession(queryInfo, query_blocks)) {
+  const sortedQueryBlocks = sortQueryBlocksByDepthDesc(query_blocks);
+  if (!saveQuerySession(queryInfo, sortedQueryBlocks)) {
     setLoading(false);
     return;
   }
