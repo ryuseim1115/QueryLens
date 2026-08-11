@@ -6,7 +6,7 @@ from api.services.analyze_query.query_block.sort_query_blocks import (
 
 def _make(depth: int) -> QueryBlockAnalyzeResult:
     return QueryBlockAnalyzeResult(
-        start_index=0, end_index=10, query="SELECT 1", depth=depth, result=[]
+        start_index=0, end_index=10, query="SELECT 1", depth=depth
     )
 
 

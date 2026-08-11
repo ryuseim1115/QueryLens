@@ -34,13 +34,12 @@ def analyze_table_references(
     return [
         QueryBlockAnalyzeResult(
             **vars(query_block),
-            tables_name_alias=[
+            table_references=[
                 _build_table_info(table_name, alias, position, query_blocks)
                 for table_name, alias, position in tables_by_block[
                     (query_block.start_index, query_block.end_index)
                 ]
             ],
-            result=[],
         )
         for query_block in query_blocks
     ]
