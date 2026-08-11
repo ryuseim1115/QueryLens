@@ -1,5 +1,5 @@
 from api.schemas.run_query import QueryBlockAnalyzeResult
-from api.services.query_structure.sort_query_blocks import (
+from api.services.analyze_query.query_block.sort_query_blocks import (
     sort_query_blocks_by_depth_desc,
 )
 

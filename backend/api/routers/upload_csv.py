@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, File, UploadFile
 
 from api.dependencies.require_login import require_login_api
-from api.services import upload_csv_service
+from api.services.csv_table import upload_csv_service
 
 router = APIRouter()
 

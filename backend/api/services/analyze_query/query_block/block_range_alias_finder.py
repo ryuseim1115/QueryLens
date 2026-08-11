@@ -31,7 +31,7 @@ def find_block_ranges_with_alias(query: str) -> dict[tuple[int, int], str | None
 
     # クエリ全体自身も1ブロックとして扱う（エイリアスは存在しないためNone）
     ranges_alias[(tokens[0].start, tokens[-1].end + 1)] = None
-    return dict(sorted(ranges_alias.items()))
+    return ranges_alias
 
 
 # 開き括弧の直前が「識別子 AS」ならCTE定義とみなし、名前を返す

@@ -7,7 +7,7 @@ from infrastructure.mysql.user_db import get_session
 from sqlalchemy.orm import Session
 
 from api.schemas.register_info import RegisterInfo
-from api.services import register_service
+from api.services.auth import register_service
 
 router = APIRouter()
 
