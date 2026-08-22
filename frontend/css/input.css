@@ -142,7 +142,8 @@ textarea {
 }
 
 .open-file-btn,
-.close-btn {
+.close-btn,
+.logout-btn {
   background: transparent;
   border: 1px solid var(--border);
   padding: 0.5rem 1rem;
@@ -153,10 +154,22 @@ textarea {
     color 0.15s;
 }
 
+.logout-btn {
+  margin-left: auto;
+  border-radius: 5px;
+  padding: 0.35rem 0.85rem;
+}
+
+.logout-btn:hover {
+  border-color: var(--muted-light);
+  color: var(--text);
+}
+
 .analysis-btn:focus-visible,
 .determine-btn:focus-visible,
 .open-file-btn:focus-visible,
-.close-btn:focus-visible {
+.close-btn:focus-visible,
+.logout-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }

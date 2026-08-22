@@ -1,3 +1,4 @@
+import { logoutUser } from '../../api/LogoutUser.js';
 import { handleOpenFileDialogClick } from '../components/input/FileDialog/OpenFileDialog.js';
 import { closeDialog } from '../components/input/FileDialog/DialogControl.js';
 import {
@@ -15,6 +16,7 @@ import {
 const openFileListBtn = document.querySelector('.open-file-btn');
 const analysisBtn = document.querySelector('.analysis-btn');
 const queryTextarea = document.querySelector('textarea[name="query"]');
+const logoutBtn = document.querySelector('.logout-btn');
 
 // ファイルダイアログの要素
 const closeFileListBtn = document.querySelector('.close-btn');
@@ -27,6 +29,10 @@ openFileListBtn.addEventListener('click', handleOpenFileDialogClick);
 analysisBtn.addEventListener('click', handleAnalysisClick);
 queryTextarea.addEventListener('input', updateLineNumbers);
 queryTextarea.addEventListener('scroll', syncScroll);
+logoutBtn.addEventListener('click', async () => {
+  await logoutUser();
+  location.href = '/login';
+});
 
 // 戻る/進むナビゲーションでtextareaの値だけがinputイベントなしに復元されることがあるため、
 // 読み込み時点の実際の値に合わせてガターを初期化する
