@@ -72,7 +72,6 @@ poetry install
 
 ```
 MYSQL_URL=mysql+pymysql://<user>:<password>@<host>/<database>
-SESSION_SECRET_KEY=<セッション署名用のランダム文字列>
 ```
 
 `DATA_DIR` / `DUCKDB_DIR` / `CSV_DISK_DIR` は未指定の場合、リポジトリ直下の `data/` 配下が使われます（`backend/config.py` 参照）。
