@@ -18,7 +18,8 @@ DUCKDB_DIR = os.getenv("DUCKDB_DIR", os.path.join(DATA_DIR, "duckdb"))
 
 CSV_DISK_DIR = os.getenv("CSV_DISK_DIR", os.path.join(DATA_DIR, "csv_files"))
 
-SESSION_SECRET_KEY = os.getenv("SESSION_SECRET_KEY")
-
-# セッションCookieの有効期限(秒)。
+# セッション(sessionsテーブルのレコード)およびセッションCookieの有効期限(秒)。
 SESSION_MAX_AGE_SECONDS = 60 * 60
+
+# ログインセッションのトークンを保持するCookie名
+SESSION_COOKIE_NAME = "session_token"
