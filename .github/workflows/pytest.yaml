@@ -2,7 +2,7 @@ name: Run Pytest
 
 on:
   pull_request:
-    branches: [production, develop]
+    branches: [develop]
 
 jobs:
   test:
