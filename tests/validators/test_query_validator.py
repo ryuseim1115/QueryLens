@@ -80,3 +80,19 @@ def test_other_users_table_is_not_visible():
     validator = QueryValidator("duckdb", "SELECT * FROM users", user_id=999)
     with pytest.raises(ValueError, match="ファイルがアップロードされていません"):
         validator.validate()
+
+
+def test_read_csv_table_function_raises():
+    validator = QueryValidator(
+        "duckdb", "SELECT * FROM read_csv('/etc/passwd')", TEST_USER_ID
+    )
+    with pytest.raises(ValueError, match="テーブル関数"):
+        validator.validate()
+
+
+def test_read_parquet_table_function_raises():
+    validator = QueryValidator(
+        "duckdb", "SELECT * FROM read_parquet('/etc/passwd')", TEST_USER_ID
+    )
+    with pytest.raises(ValueError, match="テーブル関数"):
+        validator.validate()

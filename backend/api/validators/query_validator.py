@@ -37,10 +37,20 @@ class QueryValidator:
 
     def _validate_tables(self, expression: sqlglot.Expression) -> None:
         cte_names = {cte.alias for cte in expression.find_all(exp.CTE)}
+        # read_csv()等のテーブル関数呼び出しはexp.Table.thisが単純な識別子ではなく
+        # 関数ノードになり、table.nameが空文字になる。これを許可すると
+        # サーバー上の任意ファイルを読み取れてしまうため、テーブル名として
+        # 解決できない参照は即座に拒否する
+        # （CTE参照は正しく識別子として解決されるため対象外）
+        if any(not table.name for table in expression.find_all(exp.Table)):
+            raise ValueError(
+                "テーブル関数の呼び出しなど、テーブル名として認識できないFROM句は許可されていません。"
+            )
+
         query_tables = {
             table.name
             for table in expression.find_all(exp.Table)
-            if table.name and table.name not in cte_names
+            if table.name not in cte_names
         }
         if not query_tables:
             return
