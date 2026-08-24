@@ -1,7 +1,9 @@
-from typing import Any
+from typing import Any, Self
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 from pydantic.alias_generators import to_camel
+
+from api.validators.query_validator import parse_select_query
 
 
 class QueryInfo(BaseModel):
@@ -10,6 +12,15 @@ class QueryInfo(BaseModel):
     )
     database_type: str
     query: str
+
+    # SELECT文以外を拒否する。テーブル存在チェック（QueryValidator._validate_tables）は
+    # user_idというリクエストボディ外の情報に依存するためサービス層に残しているが、
+    # この構文チェックはdatabase_type/queryだけで完結するため、
+    # ここで型ヒント駆動に強制する
+    @model_validator(mode="after")
+    def _validate_query(self) -> Self:
+        parse_select_query(self.database_type, self.query)
+        return self
 
 
 class TableInfo(BaseModel):
@@ -47,6 +58,11 @@ class RunQueryBlockRequest(BaseModel):
     )
     database_type: str
     query: str
+
+    @model_validator(mode="after")
+    def _validate_query(self) -> Self:
+        parse_select_query(self.database_type, self.query)
+        return self
 
 
 class RunQueryBlockResponse(BaseModel):
