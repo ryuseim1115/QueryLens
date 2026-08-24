@@ -73,7 +73,7 @@ def _get_table_name_and_alias(node: exp.Expression) -> TableNameAlias:
     return None, None, None
 
 
-def _get_position(identifier) -> tuple[int, int] | None:
+def _get_position(identifier: exp.Expression | None) -> tuple[int, int] | None:
     if identifier is None:
         return None
     meta = identifier.meta
