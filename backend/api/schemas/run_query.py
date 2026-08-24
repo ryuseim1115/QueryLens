@@ -13,10 +13,8 @@ class QueryInfo(BaseModel):
     database_type: str
     query: str
 
-    # SELECT文以外を拒否する。テーブル存在チェック（QueryValidator._validate_tables）は
-    # user_idというリクエストボディ外の情報に依存するためサービス層に残しているが、
-    # この構文チェックはdatabase_type/queryだけで完結するため、
-    # ここで型ヒント駆動に強制する
+    # SELECT文以外を拒否する。テーブル存在チェックはuser_id(リクエストボディ外の情報)
+    # に依存するためサービス層(QueryValidator)に残している
     @model_validator(mode="after")
     def _validate_query(self) -> Self:
         parse_select_query(self.database_type, self.query)

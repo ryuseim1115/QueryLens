@@ -3,11 +3,8 @@ from infrastructure.duckdb.get_table_names import get_table_names
 from sqlglot import errors, exp, parse_one
 
 
-# database_typeとqueryの2つだけで完結する純粋な構文チェックのため、
-# サービス層からだけでなくQueryInfo/RunQueryBlockRequestのmodel_validatorからも
-# 直接呼べるよう、クラスに依存しない関数として切り出している。
-# こうすることで「SELECT文以外禁止」がスキーマの境界で型ヒント駆動に強制され、
-# サービス層で呼び出しを書き忘れても素通りしない。
+# QueryInfo/RunQueryBlockRequestのmodel_validatorからも直接呼べるよう、
+# クラスに依存しない関数として切り出している
 def parse_select_query(database_type: str, query: str) -> sqlglot.Expression:
     query = query.strip()
     # ブロック単体のクエリ文字列は外側に括弧が付いたまま渡されることがあり
